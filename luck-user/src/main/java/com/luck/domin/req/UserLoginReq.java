@@ -1,4 +1,4 @@
-package com.luck.domin;
+package com.luck.domin.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

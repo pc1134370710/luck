@@ -1,6 +1,7 @@
 package com.luck.utils;
 
 import java.security.MessageDigest;
+import java.util.UUID;
 
 /**
 * @ClassName:       PasswordEncoder
@@ -64,5 +65,8 @@ public class PasswordEncoder {
 	}
 
 
-
+    public static String getSalt() {
+		String s = UUID.randomUUID().toString();
+		return s.replace("-","");
+	}
 }

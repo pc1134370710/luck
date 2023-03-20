@@ -1,19 +1,19 @@
 package com.luck.service.impl;
 
-import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luck.constant.CommonEnum;
-import com.luck.domin.UserLoginReq;
+import com.luck.domin.req.RegisterUserReq;
+import com.luck.domin.req.UserLoginReq;
 import com.luck.entity.UserInfo;
 import com.luck.exception.GlobalException;
 import com.luck.mapper.UserInfoMapper;
 import com.luck.resp.R;
-import com.luck.resq.UserLoginResp;
+import com.luck.domin.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luck.utils.JwtTokenUtil;
 import com.luck.utils.PasswordEncoder;
+import com.luck.utils.XHID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,4 +60,22 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userLoginResp.setUserName(userInfo.getUserName());
         return userLoginResp;
     }
+
+    @Override
+    public void registerUser(RegisterUserReq registerUserReq) {
+        // 雪花算法获取id
+        long id = XHID.nextId();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setUserName(registerUserReq.getUserName());
+        // 获取md5 加密盐值
+        String salt = PasswordEncoder.getSalt();
+        String pwd = PasswordEncoder.encode(registerUserReq.getPassword(),salt);
+        userInfo.setPassword(pwd);
+        userInfo.setUserType(0);
+        userInfo.setStatus(1);
+        userInfoMapper.insert(userInfo);
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.luck.resq;
+package com.luck.domin.resq;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ public class UserLoginResp {
 
 
     @ApiModelProperty(value = "唯一标识")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty(value = "账号")
     private String userName;

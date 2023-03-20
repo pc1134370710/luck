@@ -1,6 +1,7 @@
 package com.luck.resp;
 
 
+import com.luck.constant.CommonEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,12 +33,14 @@ public class R<T> implements Serializable {
 
     public static R OK(){
         R r = new R();
-        r.setCode(200);
+        r.setCode(CommonEnum.OK.getCode());
+        r.setMsg(CommonEnum.OK.getMsg());
         return r;
     }
     public static <T> R OK(T data){
         R r = new R();
-        r.setCode(200);
+        r.setCode(CommonEnum.OK.getCode());
+        r.setMsg(CommonEnum.OK.getMsg());
         r.setData(data);
         return r;
     }

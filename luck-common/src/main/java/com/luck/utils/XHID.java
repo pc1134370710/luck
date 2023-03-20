@@ -90,7 +90,19 @@ public class XHID {
         } else {
             sequence = 0;
         }
+
+        //将上次时间戳值刷新
         lastTimestamp = timestamp;
+
+        /**
+         * 返回结果：
+         * (timestamp - twepoch) << timestampLeftShift) 表示将时间戳减去初始时间戳，再左移相应位数
+         * (datacenterId << datacenterIdShift) 表示将数据id左移相应位数
+         * (workerId << workerIdShift) 表示将工作id左移相应位数
+         * | 是按位或运算符，例如：x | y，只有当x，y都为0的时候结果才为0，其它情况结果都为1。
+         * 因为个部分只有相应位上的值有意义，其它位上都是0，所以将各部分的值进行 | 运算就能得到最终拼接好的id
+         */
+
         // ID偏移组合生成最终的ID，并返回ID
         long nextId = ((timestamp - twepoch) << timestampLeftShift) | (processId << datacenterIdShift) | (workerId << workerIdShift) | sequence;
         return nextId;
@@ -134,27 +146,6 @@ public class XHID {
         return machinePiece;
     }
 
-//    public static void main(String[] args) {
-//        for(int i=0;i<1000000;i++){
-//            Long userId = XHID.nextId();
-////            System.out.println(userId);
-//            String id = userId.toString();
-//            int n = i;
-//            if(id.length()!=19){
-//                System.out.println(id);
-//            }
-//            if(n==999999){
-//                System.out.println("999999: "+id);
-//            }
-//            try {
-//                //用 setnx 往 redis 里插 100万条 看是否有重复的
-//                boolean serchRedis = RedisUtils.setnx(userId.toString(),userId.toString());
-//            } catch (Exception e) {
-//
-//                e.printStackTrace();
-//                System.out.println(userId);
-//            }
-//        }
-//    }
+
 }
 

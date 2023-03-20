@@ -1,9 +1,10 @@
 package com.luck.service;
 
-import com.luck.domin.UserLoginReq;
+import com.luck.domin.req.RegisterUserReq;
+import com.luck.domin.req.UserLoginReq;
 import com.luck.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luck.resq.UserLoginResp;
+import com.luck.domin.resq.UserLoginResp;
 
 /**
  * <p>
@@ -21,4 +22,6 @@ public interface IUserInfoService extends IService<UserInfo> {
      * @return
      */
     UserLoginResp login(UserLoginReq userLoginReq);
+
+    void registerUser(RegisterUserReq registerUserReq);
 }

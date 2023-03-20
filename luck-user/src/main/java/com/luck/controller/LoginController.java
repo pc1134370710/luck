@@ -1,8 +1,8 @@
 package com.luck.controller;
 
-import com.luck.domin.UserLoginReq;
+import com.luck.domin.req.UserLoginReq;
 import com.luck.resp.R;
-import com.luck.resq.UserLoginResp;
+import com.luck.domin.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,5 +35,8 @@ public class LoginController {
         UserLoginResp userLoginResp =  userInfoService.login(userLoginReq);
         return R.OK(userLoginResp);
     }
+
+
+
 
 }

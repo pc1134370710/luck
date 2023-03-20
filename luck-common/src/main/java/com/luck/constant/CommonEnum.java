@@ -7,6 +7,7 @@ package com.luck.constant;
  **/
 public enum CommonEnum {
 
+    OK(200,"操作成功"),
     LOGIN_FAIL(10001,"登录失败，密码错误");
 
 
