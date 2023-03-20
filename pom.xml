@@ -10,15 +10,15 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
-        <module>dzht-user</module>
-        <module>dzht-common</module>
-        <module>dzht-gateway</module>
-        <module>dzht-gz</module>
+        <module>luck-user</module>
+        <module>luck-common</module>
+        <module>luck-gateway</module>
+        <module>knowledge</module>
     </modules>
-    <groupId>com.hyt</groupId>
-    <artifactId>dzht</artifactId>
+    <groupId>com.luck</groupId>
+    <artifactId>luck</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>dzht</name>
+    <name>luck</name>
     <packaging>pom</packaging>
     <properties>
         <java.version>1.8</java.version>
@@ -127,9 +127,25 @@
 <!--                <version>4.9.2</version>-->
 <!--            </dependency>-->
             <dependency>
-                <groupId>com.hyt</groupId>
-                <artifactId>dzht-common</artifactId>
+                <groupId>com.luck</groupId>
+                <artifactId>luck-common</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>1.9.3</version>
             </dependency>
 
         </dependencies>
@@ -164,31 +180,5 @@
 
     </dependencies>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>net.roseboy</groupId>-->
-<!--                <artifactId>classfinal-maven-plugin</artifactId>-->
-<!--                <version>1.2.1</version>-->
-<!--                <configuration>-->
-<!--                    <password>#</password>&lt;!&ndash; #表示启动时不需要密码，事实上对于代码混淆来说，这个密码没什么用，它只是一个启动密码 &ndash;&gt;-->
-<!--                    <packages>com</packages>&lt;!&ndash; 加密的包名，多个包用逗号分开&ndash;&gt;-->
-<!--                    <excludes>org.spring</excludes>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>classFinal</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
 
 </project>
