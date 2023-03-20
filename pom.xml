@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.11</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <modules>
+        <module>dzht-user</module>
+        <module>dzht-common</module>
+        <module>dzht-gateway</module>
+        <module>dzht-gz</module>
+    </modules>
+    <groupId>com.hyt</groupId>
+    <artifactId>dzht</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>dzht</name>
+    <packaging>pom</packaging>
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+        <spring-cloud.version>2021.0.4</spring-cloud.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--   SpringCloudAlibaba    -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap -->
+<!--            SpringCloud 2020.* 版本把bootstrap禁用了 -->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
+<!--                <version>3.0.3</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.1.18</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.7.16</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.49</version>
+            </dependency>
+
+            <!-- mybatis数据库字段类型映射，此处是重点 -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-typehandlers-jsr310</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <!--        增强  -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+            <!--        代码生成器 依赖-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+            <!--         生成 模板引擎 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.31</version>
+            </dependency>
+            <!--    jwt-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+            <!--         pdf 操作类-->
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>5.5.13</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext-asian</artifactId>
+                <version>5.2.0</version>
+            </dependency>
+
+<!--           rocketMQ  -->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.rocketmq</groupId>-->
+<!--                <artifactId>rocketmq-client</artifactId>-->
+<!--                <version>4.9.2</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>com.hyt</groupId>
+                <artifactId>dzht-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+
+        <!--邮箱-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+<!--        SringBoot 服务监控 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
+
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>net.roseboy</groupId>-->
+<!--                <artifactId>classfinal-maven-plugin</artifactId>-->
+<!--                <version>1.2.1</version>-->
+<!--                <configuration>-->
+<!--                    <password>#</password>&lt;!&ndash; #表示启动时不需要密码，事实上对于代码混淆来说，这个密码没什么用，它只是一个启动密码 &ndash;&gt;-->
+<!--                    <packages>com</packages>&lt;!&ndash; 加密的包名，多个包用逗号分开&ndash;&gt;-->
+<!--                    <excludes>org.spring</excludes>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>classFinal</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+
+</project>

@@ -1,0 +1,48 @@
+server:
+  port: 10900
+spring:
+  redis:
+    host: localhost
+    prot: 6379
+  application:
+    name: my-gateway
+    # gateway 配置
+  cloud:
+    gateway:
+    #是否与服务注册于发现组件进行结合，通过 serviceId 转发到具体的服务实例。默认为 false，设为 true 便开启通过服务中心的自动根据 serviceId 创建路由的功能。
+      discovery:
+        locator:
+          enabled: true  # 开启根据服务名称 获取转发地址
+          lower-case-service-id: false  #微服务名称以小写形式呈现
+      routes:
+          # 访问地址 前缀是 服务名的话则不进行路由断言
+        - id: gzs # 路由名称随便写
+          uri: lb://gzs
+          # 路由断言，可以配置映射路径
+          predicates:
+            - Path=/dzht/ht/**
+            # 表示过滤1个路径，2表示两个路径，以此类推
+          filters:
+            - StripPrefix=1
+        - id: userFwq # 路由名称随便写
+          uri: lb://userFwq
+          # 路由断言，可以配置映射路径
+          predicates:
+            - Path=/dzht/user/**,/dzht/**
+            # 表示过滤1个路径，2表示两个路径，以此类推
+          filters:
+            - StripPrefix=1
+
+
+      # 配置跨域
+#      cors-configurations:
+#        '[/**]':  #拦截的请求
+#          allowedOrigins: "*"#允许跨域的请求
+#          allowedMethods: "*"#运行跨域的请求方式
+#          allowedHeaders: "*" #允许请求中携带的头信息
+#          allowedCredentials: true #是否允许携带cookie
+#          maxAge: 36000 #跨域检测的有效期,单位s
+
+
+
+
