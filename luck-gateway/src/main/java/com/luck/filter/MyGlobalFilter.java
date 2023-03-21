@@ -1,6 +1,6 @@
 package com.luck.filter;
 
-import com.luck.constant.Constarnt;
+import com.luck.constant.Constant;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -19,7 +19,7 @@ public class MyGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         HttpHeaders headers = request.getHeaders();
-        String token = headers.getFirst(Constarnt.ACCESS_TOKEN);
+        String token = headers.getFirst(Constant.ACCESS_TOKEN);
 
         String url = request.getPath().toString();
         if(url.contains("/user/login")){
@@ -43,7 +43,7 @@ public class MyGlobalFilter implements GlobalFilter, Ordered {
 //        }
         ServerHttpRequest request1 = exchange.getRequest().mutate().headers(httpHeaders -> {
             if(token!=null){
-                httpHeaders.add(Constarnt.ACCESS_TOKEN,token);
+                httpHeaders.add(Constant.ACCESS_TOKEN,token);
             }
         }).build();
 

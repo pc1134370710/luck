@@ -1,10 +1,11 @@
 package com.luck.service;
 
-import com.luck.domin.req.RegisterUserReq;
-import com.luck.domin.req.UserLoginReq;
+import com.luck.domain.req.RegisterUserReq;
+import com.luck.domain.req.UserLoginReq;
 import com.luck.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luck.domin.resq.UserLoginResp;
+import com.luck.domain.resq.UserLoginResp;
+import com.luck.model.UserInfoDomain;
 
 /**
  * <p>
@@ -23,5 +24,16 @@ public interface IUserInfoService extends IService<UserInfo> {
      */
     UserLoginResp login(UserLoginReq userLoginReq);
 
+    /**
+     * 注册用户
+     * @param registerUserReq
+     */
     void registerUser(RegisterUserReq registerUserReq);
+
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
+    UserInfoDomain getUserInfo(Long userId);
 }

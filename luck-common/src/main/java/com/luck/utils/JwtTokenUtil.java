@@ -1,6 +1,6 @@
 package com.luck.utils;
 
-import com.luck.constant.Constarnt;
+import com.luck.constant.Constant;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -17,9 +17,9 @@ import java.util.Map;
 @Slf4j
 public class JwtTokenUtil {
 
-    private static String securityKey;
-    private static Long tokenExpireTime;
-    private static String issuer;
+    private static String securityKey="78944878877848fg)";
+    private static Long tokenExpireTime=99999999l;
+    private static String issuer="pc";
 
     public static void setJwtProperties(){
 
@@ -149,7 +149,7 @@ public class JwtTokenUtil {
         String username=null;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = (String) claims .get(Constarnt.JWT_USER_NAME);
+            username = (String) claims .get(Constant.JWT_USER_NAME);
         } catch (Exception e) {
             log.error("eror={}",e);
         }

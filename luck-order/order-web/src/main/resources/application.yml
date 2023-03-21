@@ -1,0 +1,2 @@
+
+#java -javaagent:dzht-0.0.1-SNAPSHOT-encrypted.jar -jar dzht-0.0.1-SNAPSHOT-encrypted.jar

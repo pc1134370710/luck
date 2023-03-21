@@ -1,18 +1,16 @@
 package com.luck.controller;
 
 
-import com.luck.domin.req.AddKnowLedgeReq;
+import com.luck.domain.req.AddKnowLedgeReq;
+import com.luck.domain.req.UpdateKnowLedgeReq;
+import com.luck.model.KnowledgeDomain;
 import com.luck.resp.R;
 import com.luck.service.IPayKnowledgeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -35,10 +33,23 @@ public class PayKnowledgeController {
     @ApiOperation(value = "添加付费知识接口")
     public R addKnowLedge(@RequestBody @Validated AddKnowLedgeReq addKnowLedgeReq){
         payKnowledgeService.addKnowLedge(addKnowLedgeReq);
-
         return R.OK();
     }
 
+    @PostMapping("/updateKnowLedge")
+    @ApiOperation(value = "添加付费知识接口")
+    public R updateKnowLedge(@RequestBody @Validated UpdateKnowLedgeReq updateKnowLedgeReq){
+        payKnowledgeService.updateKnowLedge(updateKnowLedgeReq);
+        return R.OK();
+    }
+
+
+    @ApiOperation(value = "获取服务内容详情")
+    @GetMapping("/getKnowledgeInfo/{pkId}")
+    public R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")Long pkId){
+        KnowledgeDomain knowledgeDomain =  payKnowledgeService.getKnowledgeInfo(pkId);
+        return R.OK(knowledgeDomain);
+    }
 
 
 }

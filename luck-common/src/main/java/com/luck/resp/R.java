@@ -33,13 +33,13 @@ public class R<T> implements Serializable {
 
     public static R OK(){
         R r = new R();
-        r.setCode(CommonEnum.OK.getCode());
-        r.setMsg(CommonEnum.OK.getMsg());
+        r.setCode(CommonEnum.OK.code);
+        r.setMsg(CommonEnum.OK.msg);
         return r;
     }
     public static <T> R OK(T data){
         R r = new R();
-        r.setCode(CommonEnum.OK.getCode());
+        r.setCode(CommonEnum.OK.code);
         r.setMsg(CommonEnum.OK.getMsg());
         r.setData(data);
         return r;
@@ -49,7 +49,13 @@ public class R<T> implements Serializable {
         r.setCode(code);
         r.setMsg(msg);
         return r;
+    }
 
+    public static R ERROR(CommonEnum commonEnum){
+        R r = new R();
+        r.setCode(commonEnum.code);
+        r.setMsg(commonEnum.msg);
+        return r;
     }
 
 }

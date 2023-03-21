@@ -2,15 +2,16 @@ package com.luck.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luck.constant.CommonEnum;
-import com.luck.constant.Constarnt;
-import com.luck.domin.req.RegisterUserReq;
-import com.luck.domin.req.UserLoginReq;
+import com.luck.constant.Constant;
+import com.luck.domain.req.RegisterUserReq;
+import com.luck.domain.req.UserLoginReq;
 import com.luck.entity.UserInfo;
 import com.luck.exception.GlobalException;
 import com.luck.mapper.UserInfoMapper;
 import com.luck.model.UserAuth;
+import com.luck.model.UserInfoDomain;
 import com.luck.resp.R;
-import com.luck.domin.resq.UserLoginResp;
+import com.luck.domain.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luck.utils.JwtTokenUtil;
@@ -48,7 +49,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         queryWrapper.eq("user_name",userLoginReq.getUserName());
         UserInfo userInfo = userInfoMapper.selectOne(queryWrapper);
 
-        String loginPwd = PasswordEncoder.encode(userInfo.getPassword(),userInfo.getSalt());
+        String loginPwd = PasswordEncoder.encode(userLoginReq.getPassword(),userInfo.getSalt());
         if(!loginPwd.equals(userInfo.getPassword())){
             // 登录失败
             log.warn("cmd =  login | msg = 登录失败，密码错误 | userLoginReq={}",userLoginReq );
@@ -69,7 +70,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userAuth.setUserId(userInfo.getId());
         userAuth.setUserName(userInfo.getUserName());
         userAuth.setUserType(userInfo.getUserType());
-        redisUtils.set(accessToken,userAuth,Constarnt.REDIS_USER_AUTO_TIME_EXP);
+        redisUtils.set(accessToken,userAuth, Constant.REDIS_USER_AUTO_TIME_EXP);
 
         return userLoginResp;
     }
@@ -87,8 +88,18 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfo.setPassword(pwd);
         userInfo.setUserType(0);
         userInfo.setStatus(1);
+        userInfo.setSalt(salt);
         userInfoMapper.insert(userInfo);
     }
 
 
+    @Override
+    public UserInfoDomain getUserInfo(Long userId) {
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        UserInfoDomain userInfoDomain = new UserInfoDomain();
+        userInfoDomain.setUserId(userId);
+        userInfoDomain.setUserName(userInfo.getUserName());
+        userInfoDomain.setUserType(userInfo.getUserType());
+        return userInfoDomain;
+    }
 }

@@ -1,5 +1,5 @@
 server:
-  port: 10900
+  port: 9093
 spring:
   redis:
     host: localhost

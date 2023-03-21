@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: userService
+    name: userServe
 
   profiles:
     active: dev,mysql
@@ -16,6 +16,6 @@ spring:
       config:
         enabled: false
 server:
-  port: 8088
+  port: 9091
 #  servlet:
 #    context-path: /dzht

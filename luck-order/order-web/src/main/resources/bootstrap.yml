@@ -1,0 +1,21 @@
+
+spring:
+  application:
+    name: userServe
+
+  profiles:
+    active: dev,mysql
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+        # nacos 注册地址
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+      config:
+        enabled: false
+server:
+  port: 9092
+#  servlet:
+#    context-path: /dzht

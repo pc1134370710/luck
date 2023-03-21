@@ -1,5 +1,6 @@
 package com.luck.exception;
 
+import com.alibaba.fastjson.JSON;
 import com.luck.resp.R;
 
 /**
@@ -18,6 +19,8 @@ public class GlobalException extends RuntimeException {
     }
 
     public GlobalException(R r){
+        super(JSON.toJSONString(r));
        this.r= r;
     }
+
 }

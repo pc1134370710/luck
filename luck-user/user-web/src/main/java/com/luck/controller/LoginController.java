@@ -1,8 +1,8 @@
 package com.luck.controller;
 
-import com.luck.domin.req.UserLoginReq;
+import com.luck.domain.req.UserLoginReq;
 import com.luck.resp.R;
-import com.luck.domin.resq.UserLoginResp;
+import com.luck.domain.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

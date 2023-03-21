@@ -8,11 +8,13 @@ package com.luck.constant;
 public enum CommonEnum {
 
     OK(200,"操作成功"),
-    LOGIN_FAIL(10001,"登录失败，密码错误");
+    LOGIN_FAIL(10001,"登录失败，密码错误"),
+
+    GET_KNOWLEDGE_INFO_FAIL(10002,"获取付费知识失败");
 
 
-    private int code;
-    private String msg;
+    public int code;
+    public String msg;
     public int getCode(){
         return code;
     }
