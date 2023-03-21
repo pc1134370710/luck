@@ -1,0 +1,4 @@
+com\luck\service\IUserInfoService.class
+com\luck\Test.class
+com\luck\service\impl\UserInfoServiceImpl.class
+com\luck\mapper\UserInfoMapper.class

@@ -1,6 +1,7 @@
 package com.luck.utils;
 
 
+import com.luck.constant.Constarnt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,8 @@ public class PasswordRSAUtil {
             String privateKey = RSAUtils.getPrivateKey(map);
             // 获取公钥
             String publicKey = RSAUtils.getPublicKey(map);
-            redisUtils.set(key+"private", privateKey,3L, TimeUnit.MINUTES);
-            redisUtils.set(key+"public",publicKey,3L, TimeUnit.MINUTES);
+            redisUtils.set(Constarnt.RSA_PRIVATE+key, privateKey,3L, TimeUnit.MINUTES);
+            redisUtils.set(Constarnt.RSA_PUBLIC+key,publicKey,3L, TimeUnit.MINUTES);
             return publicKey;
         } catch (Exception e) {
             log.error("cmd=getPublicKey |msg = 获取公钥失败",e);
@@ -37,7 +38,7 @@ public class PasswordRSAUtil {
     }
 
     public String decrypt(String key,String password) {
-        String privateKey = (String)redisUtils.get(key+"private");
+        String privateKey = (String)redisUtils.get(Constarnt.RSA_PRIVATE+key);
 
         if(privateKey==null) {
             return null;

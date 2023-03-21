@@ -1,0 +1,10 @@
+com\luck\DzhtApplication.class
+com\luck\config\CorsConfig.class
+com\luck\controller\LoginController.class
+com\luck\GeneratoDemo$2.class
+com\luck\GeneratoDemo$1.class
+com\luck\config\WebMvcConfig.class
+com\luck\GeneratoDemo.class
+com\luck\config\MvcConfig.class
+com\luck\config\UploadFile.class
+com\luck\controller\UserInfoController.class

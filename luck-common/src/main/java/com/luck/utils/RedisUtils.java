@@ -1,6 +1,7 @@
 package com.luck.utils;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Slf4j
 public class RedisUtils {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -26,7 +28,7 @@ public class RedisUtils {
             operations.set(key, value);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("msg = cache is fail ", e);
         }
         return result;
     }
@@ -45,7 +47,7 @@ public class RedisUtils {
                 redisTemplate.delete(keys);
             }
         }catch (Exception e){
-            e.printStackTrace();
+               log.error("msg = cache is fail ", e);
         }
         return r;
     }
@@ -55,9 +57,23 @@ public class RedisUtils {
      *
      * @param key
      * @param value
+     * @param expireTime 过期时间， 单位毫秒
      * @return
      */
-    public boolean set(final String key, Object value, Long expireTime, TimeUnit timeUnit) {
+    public boolean set(final String key, Object value, Long expireTime) {
+        boolean result = false;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value);
+            redisTemplate.expire(key, expireTime, TimeUnit.MILLISECONDS);
+            result = true;
+        } catch (Exception e) {
+               log.error("msg = cache is fail ", e);
+        }
+        return result;
+    }
+
+    public boolean set(final String key, Object value, Long expireTime ,TimeUnit timeUnit) {
         boolean result = false;
         try {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
@@ -65,10 +81,11 @@ public class RedisUtils {
             redisTemplate.expire(key, expireTime, timeUnit);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("msg = cache is fail ", e);
         }
         return result;
     }
+
 
     /**
      * 批量删除对应的value
@@ -233,5 +250,15 @@ public class RedisUtils {
             throw new RuntimeException("key or TomeUnit 不能为空");
         }
         return redisTemplate.getExpire(key, unit);
+    }
+
+    /**
+     * 生成用户缓存key
+     * @param prefix 前缀
+     * @param key
+     * @return
+     */
+    public String buildUserCacheKey(String prefix , String key) {
+        return prefix+":"+key;
     }
 }

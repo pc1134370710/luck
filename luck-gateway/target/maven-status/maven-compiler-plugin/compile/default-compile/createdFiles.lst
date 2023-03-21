@@ -1,0 +1,4 @@
+com\luck\filter\GatewayFilter.class
+com\luck\filter\GulimallCorsConfiguration.class
+com\luck\GatewayApplication.class
+com\luck\filter\MyGlobalFilter.class
