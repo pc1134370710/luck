@@ -10,7 +10,8 @@ public enum CommonEnum {
     OK(200,"操作成功"),
     LOGIN_FAIL(10001,"登录失败，密码错误"),
 
-    GET_KNOWLEDGE_INFO_FAIL(10002,"获取付费知识失败");
+    GET_KNOWLEDGE_INFO_FAIL(10002,"获取付费知识失败"),
+    ORDER_IS_EXP(10003,"订单已过期");
 
 
     public int code;

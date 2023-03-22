@@ -7,14 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
+ *
+ *  如果同时指定name/value和url属性，则以url属性为准，name/value属性指定的值便当做客户端的名称
  * @description:
  * @author: pangcheng
  * @create: 2023-03-21 20:48
  **/
-@FeignClient(value = "knowledgeServe")
+@FeignClient(value = "knowledgeServe",url = "127.0.0.1:9093")
 public interface KnowledgeFeignClient {
 
-    @GetMapping("/getKnowledgeInfo/{pkId}")
+    @GetMapping("/payKnowledge/getKnowledgeInfo/{pkId}")
     R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")Long pkId);
 
 }

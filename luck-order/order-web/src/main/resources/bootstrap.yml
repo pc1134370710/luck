@@ -17,5 +17,3 @@ spring:
         enabled: false
 server:
   port: 9092
-#  servlet:
-#    context-path: /dzht
