@@ -26,11 +26,11 @@ public class MyAliPayConfig {
      */
     private String appId;
     /**
-     * 开发者私钥，由开发者自己生成。
+     * 应用私钥
      */
     private String privateKey;
     /**
-     * 支付宝公钥，由支付宝生成。
+     * 支付宝公钥。
      */
     private String alipayPublicKey;
     /**
@@ -56,11 +56,12 @@ public class MyAliPayConfig {
         //设置请求格式，固定值json
         alipayConfig.setFormat("JSON");
         //设置字符集
-        alipayConfig.setCharset(alipayPublicKey);
+//        alipayConfig.setCharset(alipayPublicKey);
         //设置签名类型
         alipayConfig.setSignType("RSA2");
         //设置支付宝公钥
         alipayConfig.setAlipayPublicKey(alipayPublicKey);
+        alipayConfig.setCharset("utf-8");
         //实例化客户端
         AlipayClient alipayClient = null;
         try {

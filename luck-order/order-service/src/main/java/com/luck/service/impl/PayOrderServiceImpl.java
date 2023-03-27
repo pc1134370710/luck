@@ -2,23 +2,26 @@ package com.luck.service.impl;
 
 import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.luck.KnowledgeFeignClient;
 import com.luck.constant.CommonEnum;
 import com.luck.constant.OrderStatusConstant;
 import com.luck.domain.req.AddOrderReq;
 import com.luck.domain.resp.PayOrderResp;
 import com.luck.entity.PayOrder;
 import com.luck.exception.GlobalException;
+import com.luck.knowledge.KnowledgeFeignClient;
 import com.luck.mapper.PayOrderMapper;
-import com.luck.model.KnowledgeDomain;
+import com.luck.pojo.KnowledgeDomain;
 import com.luck.pay.AliPay;
 import com.luck.resp.R;
 import com.luck.service.IPayOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luck.utils.Snowflake;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -38,7 +41,7 @@ import java.time.temporal.ChronoUnit;
  */
 @Service
 public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> implements IPayOrderService {
-
+    private Logger log = LoggerFactory.getLogger("PayOrderServiceImpl");
     @Autowired
     private PayOrderMapper payOrderMapper;
     @Autowired
@@ -83,29 +86,30 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
         // 参数，1, 主题：类型tag||类型tag  2,消息, 3，发送超时时间单位ms，4 延时等级
         // private String messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h";
         SendResult sendResult = rocketMQTemplate.syncSend(order_mq_topic,message,2000,16);
-        System.out.println(sendResult);
+        if(!sendResult.getSendStatus().name().equals("SEND_OK")){
+            log.warn("cmd = addOrder | msg = 发送订单mq消息失败 sendResult={}",sendResult);
+            throw new GlobalException(R.ERROR(CommonEnum.ORDER_SEND_MSG_FAIL));
+        }
+        log.info("cmd = addOrder | msg =发送消息到队列中 | sendResult={}",sendResult);
         return payOrderResp;
     }
 
     @Override
     public PayOrderResp getPayCode(String orderId) {
+        log.info("cmd = getPayCode | msg = 获取支付二维码 | orderId={} ",orderId);
         PayOrderResp payOrderResp = new PayOrderResp();
         payOrderResp.setOrderId(orderId);
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("order_id",orderId);
         PayOrder order = payOrderMapper.selectOne(queryWrapper);
 
+        // 订单已过期
         if(order.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_EXT){
             throw new GlobalException(R.ERROR(CommonEnum.ORDER_IS_EXP));
         }
 
-        long until = LocalDateTime.now().until(order.getCreateTime(), ChronoUnit.MINUTES);
-        if(until>30){
-            // 订单已过期
-        }
-
-
         try {
+            // 开发者需要自己使用工具根据内容生成二维码图片。
             String code = aliPay.getCode(orderId,order.getOrderName(),order.getOrderPrice().toPlainString(),"");
             payOrderResp.setQrCodeUrl(code);
         } catch (AlipayApiException e) {

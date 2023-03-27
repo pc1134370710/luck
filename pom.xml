@@ -15,6 +15,8 @@
         <module>luck-gateway</module>
         <module>luck-knowledge</module>
         <module>luck-order</module>
+        <module>luck-api</module>
+        <module>luck-luck</module>
     </modules>
     <groupId>com.luck</groupId>
     <artifactId>luck</artifactId>
@@ -66,6 +68,11 @@
                 <version>5.7.16</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>3.3.3</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -183,11 +190,7 @@
                 <artifactId>knowledge-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.luck</groupId>
-                <artifactId>knowledge-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.luck</groupId>
                 <artifactId>knowledge-service</artifactId>
@@ -204,9 +207,10 @@
                 <artifactId>order-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.luck</groupId>
-                <artifactId>order-api</artifactId>
+                <artifactId>luck-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

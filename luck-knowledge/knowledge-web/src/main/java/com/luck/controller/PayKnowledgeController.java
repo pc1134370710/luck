@@ -1,9 +1,12 @@
 package com.luck.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.domain.req.AddKnowLedgeReq;
+import com.luck.domain.req.GetKnowLedgeListReq;
 import com.luck.domain.req.UpdateKnowLedgeReq;
-import com.luck.model.KnowledgeDomain;
+import com.luck.domain.resp.GetKnowLedgeDetailResp;
+import com.luck.pojo.KnowledgeDomain;
 import com.luck.resp.R;
 import com.luck.service.IPayKnowledgeService;
 import io.swagger.annotations.Api;
@@ -37,9 +40,16 @@ public class PayKnowledgeController {
     }
 
     @PostMapping("/updateKnowLedge")
-    @ApiOperation(value = "添加付费知识接口")
+    @ApiOperation(value = "修改付费知识接口")
     public R updateKnowLedge(@RequestBody @Validated UpdateKnowLedgeReq updateKnowLedgeReq){
         payKnowledgeService.updateKnowLedge(updateKnowLedgeReq);
+        return R.OK();
+    }
+
+    @PostMapping("/getKnowLedgeList")
+    @ApiOperation(value = "分页获取付费知识列表")
+    public R<GetKnowLedgeDetailResp> getKnowLedgeList(@RequestBody GetKnowLedgeListReq getKnowLedgeListReq){
+        Page<GetKnowLedgeDetailResp> page = payKnowledgeService.getKnowLedgeList(getKnowLedgeListReq);
         return R.OK();
     }
 

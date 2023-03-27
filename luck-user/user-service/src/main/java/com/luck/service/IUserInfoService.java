@@ -5,7 +5,7 @@ import com.luck.domain.req.UserLoginReq;
 import com.luck.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luck.domain.resq.UserLoginResp;
-import com.luck.model.UserInfoDomain;
+import com.luck.pojo.UserInfoDomain;
 
 /**
  * <p>

@@ -13,7 +13,6 @@
     <modules>
         <module>knowledge-model</module>
         <module>knowledge-service</module>
-        <module>knowledge-api</module>
         <module>knowledge-web</module>
     </modules>
     <packaging>pom</packaging>

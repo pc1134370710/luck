@@ -1,10 +1,13 @@
 package com.luck.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.domain.req.AddKnowLedgeReq;
+import com.luck.domain.req.GetKnowLedgeListReq;
 import com.luck.domain.req.UpdateKnowLedgeReq;
+import com.luck.domain.resp.GetKnowLedgeDetailResp;
 import com.luck.entity.PayKnowledge;
 import com.luck.mapper.PayKnowledgeMapper;
-import com.luck.model.KnowledgeDomain;
+import com.luck.pojo.KnowledgeDomain;
 import com.luck.service.IPayKnowledgeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luck.utils.Snowflake;
@@ -50,6 +53,14 @@ public class PayKnowledgeServiceImpl extends ServiceImpl<PayKnowledgeMapper, Pay
 
     @Override
     public void updateKnowLedge(UpdateKnowLedgeReq updateKnowLedgeReq) {
+        PayKnowledge payKnowledge = new PayKnowledge();
+        BeanUtils.copyProperties(updateKnowLedgeReq,payKnowledge);
+        payKnowledge.setId(updateKnowLedgeReq.getPkId());
+        payKnowledgeMapper.updateById(payKnowledge);
+    }
 
+    @Override
+    public Page<GetKnowLedgeDetailResp> getKnowLedgeList(GetKnowLedgeListReq getKnowLedgeListReq) {
+        return  payKnowledgeMapper.getKnowLedgeList(getKnowLedgeListReq,getKnowLedgeListReq.getPage());
     }
 }

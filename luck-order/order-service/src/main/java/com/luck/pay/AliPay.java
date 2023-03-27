@@ -9,12 +9,27 @@ import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.luck.constant.CommonEnum;
+import com.luck.entity.PayOrder;
+import com.luck.exception.GlobalException;
+import com.luck.knowledge.KnowledgeFeignClient;
+import com.luck.mapper.PayOrderMapper;
+import com.luck.resp.R;
+import com.luck.user.UserFeignClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -29,10 +44,11 @@ public class AliPay {
 
     @Autowired
     private MyAliPayConfig myAliPayConfig;
+    @Autowired
+    private PayOrderMapper payOrderMapper;
 
-
-
-
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
     /**
      *  获取支付二维码
      * https://opendocs.alipay.com/open/02ekfg?scene=19#%E8%AF%B7%E6%B1%82%E7%A4%BA%E4%BE%8B
@@ -57,11 +73,29 @@ public class AliPay {
         model.setTotalAmount(totalAmount);
         // 描述
         model.setBody(body);
+        /*
+        订单相对超时时间。 从预下单请求时间开始计算。
+该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
+当面付场景默认值为3h；
+
+注：
+1. 二维码最长有效期是2小时，不管该参数传递的值是多少，超过2小时后二维码都将失效不能再进行扫码支付。
+2. time_expire和timeout_express两者只需传入一个或者都不传，如果两者都传，优先使用time_expire。
+
+         */
+//        model.setTimeoutExpress("30m");
         payRequest.setBizModel(model);
         // 异步回调url
         payRequest.setNotifyUrl(myAliPayConfig.getPayCallbackUrl());
         AlipayTradePrecreateResponse response = myAliPayConfig.getAlipayClient().execute(payRequest);
         log.info("支付请求结果：{}", JSON.toJSONString(response));
+        // 验签
+//        boolean rsa2 = AlipaySignature.rsaCheckV1(response.getParams(), myAliPayConfig.getPrivateKey(), "utf-8", "RSA2");
+//        if (!rsa2){
+//            // 验签失败
+//            throw new GlobalException(R.ERROR(CommonEnum.FAIL));
+//        }
+
         return response.getQrCode();
     }
 
@@ -88,7 +122,25 @@ public class AliPay {
      * https://blog.csdn.net/weixin_44004020/article/details/111472797
      *
      */
-    public void payCallback() {
+    public void payCallback(Map<String, String> params) {
+        // 获取订单号
+        String orderId = params.get("out_trade_no");
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("",orderId);
+        PayOrder order = payOrderMapper.selectOne(queryWrapper);
+
+        Message<String> message = MessageBuilder.withPayload(order.getPkId()+"")
+                .setHeader(RocketMQHeaders.KEYS, order.getUserId())
+                .build();
+        // 将付费知识id  添加到用户的访问权限中
+        // 发送至mq 中
+        SendResult sendResult = rocketMQTemplate.syncSend("paySuc", message);
+        if(!sendResult.getSendStatus().name().equals(SendStatus.SEND_OK.name())){
+            log.warn("cmd = addOrder | msg = 发送订单mq消息失败 sendResult={}",sendResult);
+            throw new GlobalException(R.ERROR(CommonEnum.ORDER_SEND_MSG_FAIL));
+            // 退款？
+        }
+        // 结束
 
     }
 }

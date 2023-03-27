@@ -2,7 +2,7 @@ package com.luck.controller;
 
 
 import com.luck.domain.req.RegisterUserReq;
-import com.luck.model.UserInfoDomain;
+import com.luck.pojo.UserInfoDomain;
 import com.luck.resp.R;
 import com.luck.service.IUserInfoService;
 import io.swagger.annotations.Api;

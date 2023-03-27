@@ -9,7 +9,7 @@ import com.luck.entity.UserInfo;
 import com.luck.exception.GlobalException;
 import com.luck.mapper.UserInfoMapper;
 import com.luck.model.UserAuth;
-import com.luck.model.UserInfoDomain;
+import com.luck.pojo.UserInfoDomain;
 import com.luck.resp.R;
 import com.luck.domain.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;

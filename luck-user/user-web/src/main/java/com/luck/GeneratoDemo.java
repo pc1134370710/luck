@@ -111,7 +111,7 @@ public class GeneratoDemo {
         // 写于父类中的公共字段
 //        strategy.setSuperEntityColumns("userid");
 //        表名，多个英文逗号分割
-        strategy.setInclude("luck_pay_order");
+        strategy.setInclude("luck_pay_power");
         strategy.setControllerMappingHyphenStyle(true);
 //        System.out.println("ssss"+pc.getModuleName());
         strategy.setTablePrefix("luck_");   //去掉表中前缀

@@ -18,9 +18,8 @@
         </dependency>
         <dependency>
             <groupId>com.luck</groupId>
-            <artifactId>order-api</artifactId>
+            <artifactId>luck-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>

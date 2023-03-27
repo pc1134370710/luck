@@ -4,11 +4,11 @@ spring:
     name: userServe
 
   profiles:
-    active: dev,mysql
+    active: dev,mysql,pay
   cloud:
     nacos:
       discovery:
-        enabled: false
+        enabled: true
         # nacos 注册地址
         server-addr: 127.0.0.1:8848
         username: nacos

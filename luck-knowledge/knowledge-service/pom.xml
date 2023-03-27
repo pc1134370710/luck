@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.luck</groupId>
-            <artifactId>knowledge-api</artifactId>
+            <artifactId>luck-api</artifactId>
         </dependency>
 
     </dependencies>

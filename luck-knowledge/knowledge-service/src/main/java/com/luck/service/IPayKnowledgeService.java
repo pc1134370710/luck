@@ -1,10 +1,13 @@
 package com.luck.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.domain.req.AddKnowLedgeReq;
+import com.luck.domain.req.GetKnowLedgeListReq;
 import com.luck.domain.req.UpdateKnowLedgeReq;
+import com.luck.domain.resp.GetKnowLedgeDetailResp;
 import com.luck.entity.PayKnowledge;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.luck.model.KnowledgeDomain;
+import com.luck.pojo.KnowledgeDomain;
 
 /**
  * <p>
@@ -34,4 +37,11 @@ public interface IPayKnowledgeService extends IService<PayKnowledge> {
      * @param updateKnowLedgeReq
      */
     void updateKnowLedge(UpdateKnowLedgeReq updateKnowLedgeReq);
+
+    /**
+     * 分页获取付费知识列表
+     * @param getKnowLedgeListReq
+     * @return
+     */
+    Page<GetKnowLedgeDetailResp> getKnowLedgeList(GetKnowLedgeListReq getKnowLedgeListReq);
 }
