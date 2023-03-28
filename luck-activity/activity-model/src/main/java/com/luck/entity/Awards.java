@@ -35,6 +35,9 @@ public class Awards implements Serializable {
     @ApiModelProperty(value = "奖项数量")
     private Integer cnt;
 
+    @ApiModelProperty(value = "中奖概率 0-100")
+    private Integer probability;
+
     @ApiModelProperty(value = "奖项名称（几等奖 ）")
     private String awardsName;
 

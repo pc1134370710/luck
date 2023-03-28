@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>luck-luck</artifactId>
+    <artifactId>luck-activity</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>activity-model</module>

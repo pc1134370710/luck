@@ -12,8 +12,6 @@ import lombok.Data;
 @Data
 @ApiModel(value = "抽奖 结果")
 public class LuckDrawResp {
-    @ApiModelProperty(value = "0未中奖，1中奖")
-    private Integer luckDrawStatus;
 
     @ApiModelProperty(value = "奖项名称")
     private String awardsName;
