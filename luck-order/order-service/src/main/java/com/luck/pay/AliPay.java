@@ -11,6 +11,7 @@ import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luck.constant.CommonEnum;
+import com.luck.constant.MqConstant;
 import com.luck.entity.PayOrder;
 import com.luck.exception.GlobalException;
 import com.luck.knowledge.KnowledgeFeignClient;
@@ -44,8 +45,7 @@ public class AliPay {
 
     @Autowired
     private MyAliPayConfig myAliPayConfig;
-    @Autowired
-    private PayOrderMapper payOrderMapper;
+
 
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
@@ -53,7 +53,7 @@ public class AliPay {
      *  获取支付二维码
      * https://opendocs.alipay.com/open/02ekfg?scene=19#%E8%AF%B7%E6%B1%82%E7%A4%BA%E4%BE%8B
      *
-     * @param outTradeNo  订单id
+     * @param orderId  订单id
      * @param subject     商品名称
      * @param totalAmount 金额
      * @param body        其它参数
@@ -122,25 +122,17 @@ public class AliPay {
      * https://blog.csdn.net/weixin_44004020/article/details/111472797
      *
      */
-    public void payCallback(Map<String, String> params) {
+    public String payCallback(Map<String, String> params) {
         // 获取订单号
         String orderId = params.get("out_trade_no");
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("",orderId);
-        PayOrder order = payOrderMapper.selectOne(queryWrapper);
-
-        Message<String> message = MessageBuilder.withPayload(order.getPkId()+"")
-                .setHeader(RocketMQHeaders.KEYS, order.getUserId())
+        Message<String> message = MessageBuilder.withPayload(orderId)
+                .setHeader(RocketMQHeaders.KEYS, orderId)
                 .build();
-        // 将付费知识id  添加到用户的访问权限中
-        // 发送至mq 中
-        SendResult sendResult = rocketMQTemplate.syncSend("paySuc", message);
-        if(!sendResult.getSendStatus().name().equals(SendStatus.SEND_OK.name())){
-            log.warn("cmd = addOrder | msg = 发送订单mq消息失败 sendResult={}",sendResult);
-            throw new GlobalException(R.ERROR(CommonEnum.ORDER_SEND_MSG_FAIL));
-            // 退款？
+        // 回调成功后， 将消息投递至MQ中 ，确保权限能100% 加入到用户权限中
+        SendResult sendResult = rocketMQTemplate.syncSend(MqConstant.ORDER_PAY_SUCCESS, message);
+        if(sendResult.getSendStatus().name().equals(SendStatus.SEND_OK)){
+            return "success";
         }
-        // 结束
-
+        return "fail";
     }
 }

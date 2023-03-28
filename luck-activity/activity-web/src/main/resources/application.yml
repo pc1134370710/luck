@@ -1,0 +1,9 @@
+
+#java -javaagent:dzht-0.0.1-SNAPSHOT-encrypted.jar -jar dzht-0.0.1-SNAPSHOT-encrypted.jar
+rocketmq:
+  name-server: 192.168.34.9:9876
+  # 生产者配置
+  producer:
+    #组名
+    group: order
+    sendMessageTimeout: 300000

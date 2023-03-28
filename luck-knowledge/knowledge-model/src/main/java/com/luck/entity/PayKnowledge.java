@@ -27,7 +27,7 @@ public class PayKnowledge implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "数据库主键")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "付费知识名称")
     private String name;

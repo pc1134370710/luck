@@ -18,6 +18,6 @@ public interface UserFeignClient {
      * @return
      */
     @GetMapping("/user/{userId}")
-    R getUserInfo(@PathVariable("userId")Long userId);
+    R getUserInfo(@PathVariable("userId")String userId);
 
 }

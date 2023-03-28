@@ -1,8 +1,12 @@
 package com.luck.config;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.pojo.Instance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.DefaultResponse;
 import org.springframework.cloud.client.loadbalancer.EmptyResponse;
@@ -23,6 +27,9 @@ import java.util.concurrent.ThreadLocalRandom;
 //@Component
 public class NacosWeightedRule implements ReactorServiceInstanceLoadBalancer {
 
+    @Autowired
+    private NacosDiscoveryProperties nacosDiscoveryProperties;
+
     private static final Log log = LogFactory.getLog(RandomLoadBalancer.class);
     private  String serviceId;
     private ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
@@ -35,8 +42,14 @@ public class NacosWeightedRule implements ReactorServiceInstanceLoadBalancer {
         this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
     }
 
+    @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
+
+        // 获取Nocas服务发现的相关组件API
+        NamingService namingService = nacosDiscoveryProperties.namingServiceInstance();
+
         ServiceInstanceListSupplier supplier = (ServiceInstanceListSupplier)this.serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
+
         return supplier.get(request).next().map((serviceInstances) -> {
             return this.processInstanceResponse(supplier, serviceInstances);
         });
@@ -65,9 +78,10 @@ public class NacosWeightedRule implements ReactorServiceInstanceLoadBalancer {
             return new EmptyResponse();
         } else {
             int index = ThreadLocalRandom.current().nextInt(instances.size());
-            ServiceInstance instance = (ServiceInstance)instances.get(index);
-            System.out.println(instance);
-            return new DefaultResponse(instance);
+
+
+
+            return new EmptyResponse();
         }
     }
 }

@@ -16,7 +16,7 @@
         <module>luck-knowledge</module>
         <module>luck-order</module>
         <module>luck-api</module>
-        <module>luck-luck</module>
+        <module>luck-activity</module>
     </modules>
     <groupId>com.luck</groupId>
     <artifactId>luck</artifactId>
@@ -210,9 +210,23 @@
 
             <dependency>
                 <groupId>com.luck</groupId>
+                <artifactId>activity-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.luck</groupId>
+                <artifactId>activity-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.luck</groupId>
                 <artifactId>luck-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
+
         </dependencies>
     </dependencyManagement>
 

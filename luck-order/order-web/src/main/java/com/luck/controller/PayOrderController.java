@@ -3,8 +3,11 @@ package com.luck.controller;
 
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.http.server.HttpServerResponse;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.domain.req.AddOrderReq;
+import com.luck.domain.req.GetOrderListReq;
 import com.luck.domain.resp.PayOrderResp;
+import com.luck.entity.PayOrder;
 import com.luck.pay.AliPay;
 import com.luck.resp.R;
 import com.luck.service.IPayOrderService;
@@ -54,6 +57,15 @@ public class PayOrderController {
         QrCodeUtil.generate(payCode.getQrCodeUrl(), 67+12*(30-1), 67+12*(30-1),"png",response.getOutputStream());
         return;
     }
+
+    @PostMapping("/getOrderList")
+    @ApiOperation(value = "获取订单列表")
+    public R<Page<PayOrder>> getOrderList(@RequestBody GetOrderListReq getOrderListReq){
+        Page<PayOrder> page =  payOrderService.getOrderList(getOrderListReq);
+        return R.OK();
+
+    }
+
 
     @GetMapping("/payCallUrl")
     @ApiOperation(value = "支付宝回调")

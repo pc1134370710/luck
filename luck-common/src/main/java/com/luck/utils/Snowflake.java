@@ -51,8 +51,8 @@ public class Snowflake {
     static{
         xhid = new Snowflake();
     }
-    public static synchronized long nextId(){
-        return xhid.getNextId();
+    public static synchronized String nextId(){
+        return xhid.getNextId()+"";
     }
 
     private Snowflake() {

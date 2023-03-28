@@ -1,12 +1,16 @@
 package com.luck.consumer;
 
+import com.luck.constant.MqConstant;
 import com.luck.entity.PayPower;
 import com.luck.mapper.PayPowerMapper;
+import com.luck.model.UserKnowledgePowerMsg;
 import com.luck.utils.Snowflake;
 import lombok.SneakyThrows;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,20 +21,22 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
-@RocketMQMessageListener(consumerGroup = "orderConsumer",topic = "paySuc")
-public class PayCallBackListener implements RocketMQListener<MessageExt> {
+@RocketMQMessageListener(consumerGroup = "userPowerConsumer",topic = MqConstant.USER_POWER)
+public class PayCallBackListener implements RocketMQListener<UserKnowledgePowerMsg> {
+
+    private Logger log = LoggerFactory.getLogger(PayCallBackListener.class);
 
     @Autowired
     private PayPowerMapper payPowerMapper;
 
-    @SneakyThrows
     @Override
-    public void onMessage(MessageExt messageExt) {
-        String pkId = new String(messageExt.getBody(),"utf-8");
+    public void onMessage(UserKnowledgePowerMsg userKnowledgePowerMsg) {
+
+        log.info("msg= 支付成功， 将商品查看权限 添加给用户 messageExt={}",userKnowledgePowerMsg);
         PayPower payPower = new PayPower();
         payPower.setId(Snowflake.nextId());
-        payPower.setUserId(1l);
-        payPower.setPkId(Long.valueOf(pkId));
+        payPower.setUserId(userKnowledgePowerMsg.getUserId());
+        payPower.setPkId(userKnowledgePowerMsg.getPkId());
         payPowerMapper.insert(payPower);
 
     }

@@ -29,5 +29,15 @@ public class Constant {
     public static final long REDIS_USER_AUTO_TIME_EXP = 1000 * 60 * 60* 24;
 
 
-    public static final String ACCESS_TOKEN = "tokens";
+    public static final String ACCESS_TOKEN = "authToken";
+
+    /**
+     * 普通用户类型
+     */
+    public static final int COMMON_USER= 0;
+
+    /**
+     * 管理员
+     */
+    public static final int ADMIN_USER= 10;
 }

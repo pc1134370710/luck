@@ -17,7 +17,7 @@ public class KnowledgeDomain {
 
 
     @ApiModelProperty(value = "数据库主键")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "付费知识名称")
     private String name;

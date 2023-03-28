@@ -25,13 +25,13 @@ public class PayPower implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "数据库主键")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "付费知识id")
-    private Long pkId;
+    private String pkId;
 
     @ApiModelProperty(value = "用户主键id")
-    private Long userId;
+    private String userId;
 
 
 }

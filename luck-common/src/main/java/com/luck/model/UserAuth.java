@@ -10,9 +10,22 @@ import lombok.Data;
 @Data
 public class UserAuth {
 
-    private Long userId;
+    /**
+     * 用户id
+     */
+    private String userId;
+    /**
+     * 用户姓名
+     */
     private String userName;
+    /**
+     * 用户类型
+     */
     private Integer userType;
 
+    /**
+     * token  信息
+     */
+    private String token;
 
 }

@@ -30,7 +30,7 @@ public interface IPayKnowledgeService extends IService<PayKnowledge> {
      * @param pkId
      * @return
      */
-    KnowledgeDomain getKnowledgeInfo(Long pkId);
+    KnowledgeDomain getKnowledgeInfo(String pkId);
 
     /**
      * 修改付费内容

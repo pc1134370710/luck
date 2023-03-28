@@ -50,13 +50,13 @@ public class PayKnowledgeController {
     @ApiOperation(value = "分页获取付费知识列表")
     public R<GetKnowLedgeDetailResp> getKnowLedgeList(@RequestBody GetKnowLedgeListReq getKnowLedgeListReq){
         Page<GetKnowLedgeDetailResp> page = payKnowledgeService.getKnowLedgeList(getKnowLedgeListReq);
-        return R.OK();
+        return R.OK(page);
     }
 
 
     @ApiOperation(value = "获取服务内容详情")
     @GetMapping("/getKnowledgeInfo/{pkId}")
-    public R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")Long pkId){
+    public R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")String pkId){
         KnowledgeDomain knowledgeDomain =  payKnowledgeService.getKnowledgeInfo(pkId);
         return R.OK(knowledgeDomain);
     }

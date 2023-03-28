@@ -34,7 +34,7 @@ public class PayKnowledgeServiceImpl extends ServiceImpl<PayKnowledgeMapper, Pay
     public void addKnowLedge(AddKnowLedgeReq addKnowLedgeReq) {
 
         PayKnowledge payKnowledge = new PayKnowledge();
-        long id = Snowflake.nextId();
+        String id = Snowflake.nextId();
         payKnowledge.setId(id);
         payKnowledge.setName(addKnowLedgeReq.getName());
         payKnowledge.setContent(addKnowLedgeReq.getContent());
@@ -44,7 +44,7 @@ public class PayKnowledgeServiceImpl extends ServiceImpl<PayKnowledgeMapper, Pay
     }
 
     @Override
-    public KnowledgeDomain getKnowledgeInfo(Long pkId) {
+    public KnowledgeDomain getKnowledgeInfo(String pkId) {
         PayKnowledge payKnowledge = payKnowledgeMapper.selectById(pkId);
         KnowledgeDomain knowledgeDomain  = new KnowledgeDomain();
         BeanUtils.copyProperties(payKnowledge,knowledgeDomain);

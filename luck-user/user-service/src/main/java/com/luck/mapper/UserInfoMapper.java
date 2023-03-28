@@ -1,5 +1,7 @@
 package com.luck.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luck.domain.req.GetUserListReq;
 import com.luck.entity.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
+    Page<UserInfo> getUserList(Page page, GetUserListReq getUserListReq);
 }

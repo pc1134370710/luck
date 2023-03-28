@@ -15,11 +15,15 @@ public class UserLoginResp {
 
 
     @ApiModelProperty(value = "唯一标识")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "账号")
     private String userName;
     @ApiModelProperty(value = "token")
     private String token;
+    /**
+     * 用户类型
+     */
+    private Integer userType;
 
 }

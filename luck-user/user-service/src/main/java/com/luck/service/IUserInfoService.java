@@ -1,5 +1,7 @@
 package com.luck.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luck.domain.req.GetUserListReq;
 import com.luck.domain.req.RegisterUserReq;
 import com.luck.domain.req.UserLoginReq;
 import com.luck.entity.UserInfo;
@@ -35,5 +37,8 @@ public interface IUserInfoService extends IService<UserInfo> {
      * @param userId
      * @return
      */
-    UserInfoDomain getUserInfo(Long userId);
+    UserInfoDomain getUserInfo(String userId);
+
+
+    Page<UserInfo> getUserList(GetUserListReq getUserListReq);
 }

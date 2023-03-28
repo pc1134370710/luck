@@ -26,7 +26,7 @@ public class PayOrder implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "数据库主键")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "订单id")
     private String orderId;
@@ -34,10 +34,10 @@ public class PayOrder implements Serializable {
     private String orderName;
 
     @ApiModelProperty(value = "用户主键id")
-    private Integer userId;
+    private String userId;
 
     @ApiModelProperty(value = "付费知识id")
-    private Long pkId;
+    private String pkId;
 
     @ApiModelProperty(value = "支付金额")
     private BigDecimal payMoney;

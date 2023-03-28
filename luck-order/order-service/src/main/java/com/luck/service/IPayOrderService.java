@@ -1,6 +1,8 @@
 package com.luck.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.domain.req.AddOrderReq;
+import com.luck.domain.req.GetOrderListReq;
 import com.luck.domain.resp.PayOrderResp;
 import com.luck.entity.PayOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -28,4 +30,11 @@ public interface IPayOrderService extends IService<PayOrder> {
      * @return
      */
     PayOrderResp getPayCode(String orderId);
+
+    /**
+     * 获取订单列表
+     * @param getOrderListReq
+     * @return
+     */
+    Page<PayOrder> getOrderList(GetOrderListReq getOrderListReq);
 }

@@ -1,8 +1,10 @@
 package com.luck.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.constant.CommonEnum;
 import com.luck.constant.Constant;
+import com.luck.domain.req.GetUserListReq;
 import com.luck.domain.req.RegisterUserReq;
 import com.luck.domain.req.UserLoginReq;
 import com.luck.entity.UserInfo;
@@ -14,10 +16,7 @@ import com.luck.resp.R;
 import com.luck.domain.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luck.utils.JwtTokenUtil;
-import com.luck.utils.PasswordEncoder;
-import com.luck.utils.RedisUtils;
-import com.luck.utils.Snowflake;
+import com.luck.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +38,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Autowired
     private UserInfoMapper userInfoMapper;
+    @Autowired
+    private PasswordRSAUtil passwordRSAUtil;
 
     @Autowired
     private RedisUtils redisUtils;
@@ -59,12 +60,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         Map<String,Object> map = new HashMap<>();
         map.put("userName",userInfo.getUserName());
         map.put("userType",userInfo.getUserType());
-
         String accessToken = JwtTokenUtil.getAccessToken(userInfo.getId().toString(), map);
         UserLoginResp userLoginResp = new UserLoginResp();
         userLoginResp.setToken(accessToken);
         userLoginResp.setUserId(userInfo.getId());
         userLoginResp.setUserName(userInfo.getUserName());
+        userLoginResp.setUserType(userInfo.getUserType());
 
         UserAuth userAuth = new UserAuth();
         userAuth.setUserId(userInfo.getId());
@@ -78,23 +79,28 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public void registerUser(RegisterUserReq registerUserReq) {
         // 雪花算法获取id
-        long id = Snowflake.nextId();
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(id);
+        userInfo.setId(Snowflake.nextId());
         userInfo.setUserName(registerUserReq.getUserName());
+        // rsa 解密
+        String pwd = passwordRSAUtil.decrypt(registerUserReq.getKey(),registerUserReq.getPassword());
         // 获取md5 加密盐值
         String salt = PasswordEncoder.getSalt();
-        String pwd = PasswordEncoder.encode(registerUserReq.getPassword(),salt);
+        pwd = PasswordEncoder.encode(pwd,salt);
         userInfo.setPassword(pwd);
-        userInfo.setUserType(0);
+        userInfo.setUserType(Constant.COMMON_USER);
         userInfo.setStatus(1);
         userInfo.setSalt(salt);
         userInfoMapper.insert(userInfo);
     }
 
+    @Override
+    public Page<UserInfo> getUserList(GetUserListReq getUserListReq) {
+        return userInfoMapper.getUserList(getUserListReq.getPage(),getUserListReq);
+    }
 
     @Override
-    public UserInfoDomain getUserInfo(Long userId) {
+    public UserInfoDomain getUserInfo(String userId) {
         UserInfo userInfo = userInfoMapper.selectById(userId);
         UserInfoDomain userInfoDomain = new UserInfoDomain();
         userInfoDomain.setUserId(userId);

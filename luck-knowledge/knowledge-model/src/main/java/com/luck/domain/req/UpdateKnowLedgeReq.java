@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class UpdateKnowLedgeReq {
 
     @ApiModelProperty(value = "数据库id")
-    private Long pkId;
+    private String pkId;
 
 
     @ApiModelProperty(value = "付费知识名称")

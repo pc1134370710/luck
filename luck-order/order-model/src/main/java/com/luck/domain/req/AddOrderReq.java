@@ -15,6 +15,6 @@ public class AddOrderReq {
 
 
     @ApiModelProperty(value = "付费知识id")
-    private Long pkId;
+    private String pkId;
 
 }

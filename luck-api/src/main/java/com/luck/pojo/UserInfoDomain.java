@@ -10,8 +10,17 @@ import lombok.Data;
 @Data
 public class UserInfoDomain {
 
-    private Long userId;
+    /**
+     * 用户id
+     */
+    private String userId;
+    /**
+     * 用户姓名
+     */
     private String userName;
+    /**
+     * 用户类型
+     */
     private Integer userType;
 
 }
