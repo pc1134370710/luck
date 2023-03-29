@@ -33,11 +33,18 @@ public class RaffleRecord implements Serializable {
     @ApiModelProperty(value = "抽奖活动id")
     private String ayId;
 
-    @ApiModelProperty(value = "0未中奖，1已中奖")
+    @ApiModelProperty(value = "0不可见，1可见")
     private Integer status;
+    @ApiModelProperty(value = "是否中奖，0否，1是")
+    private Integer isDraw;
 
     @ApiModelProperty(value = "奖品id")
     private String adId;
+
+    @ApiModelProperty(value = "奖品名称")
+    private String awardsName;
+    @ApiModelProperty(value = "抽奖活动名称")
+    private String activityName;
 
     @ApiModelProperty(value = "抽奖时间")
     private LocalDateTime createTime;

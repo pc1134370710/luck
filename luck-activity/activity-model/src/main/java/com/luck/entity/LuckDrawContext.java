@@ -13,7 +13,11 @@ import java.util.List;
  **/
 @Data
 @ApiModel("抽奖数据实体类")
-public class LuckDraw {
+public class LuckDrawContext {
+
+
+    @ApiModelProperty(value = "抽奖记录")
+    private RaffleRecord raffleRecord;
 
 
     @ApiModelProperty(value = "抽奖活动")
