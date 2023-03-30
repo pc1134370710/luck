@@ -15,13 +15,14 @@ import feign.RequestTemplate;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @description:
  * @author: pangcheng
  * @create: 2023-02-26 13:06
  **/
-@Configurable
+@Configuration
 @EnableFeignClients // 开启 fegin 客户端
 public class FeignConfig  {
 

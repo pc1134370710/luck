@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "knowledgeServe")
 public interface KnowledgeFeignClient {
 
-    @GetMapping("/payKnowledge/getKnowledgeInfo/{pkId}")
+    @GetMapping("/knowledge/payKnowledge/getKnowledgeInfo/{pkId}")
     R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")String pkId);
 
 }
