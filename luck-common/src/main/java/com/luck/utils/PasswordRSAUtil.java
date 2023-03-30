@@ -41,7 +41,7 @@ public class PasswordRSAUtil {
         String privateKey = (String)redisUtils.get(Constant.RSA_PRIVATE+key);
 
         if(privateKey==null) {
-            return null;
+            return password;
         }
         try {
 
@@ -50,7 +50,7 @@ public class PasswordRSAUtil {
             e.printStackTrace();
             log.error("cmd=PasswordRSAUtil | msg =解密失败",e);
         }
-        return null;
+        return password;
     }
 
 //    public static void main(String[] args) throws Exception {

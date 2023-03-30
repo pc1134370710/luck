@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/22023/2 10:10
+ * @time: 2023/2/2 10:10
  */
 @Target(value = ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

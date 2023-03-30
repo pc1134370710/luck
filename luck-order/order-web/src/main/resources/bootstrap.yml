@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: userServe
+    name: orderServe
 
   profiles:
     active: dev,mysql,pay
@@ -17,3 +17,5 @@ spring:
         enabled: false
 server:
   port: 9092
+  servlet:
+    context-path: /order

@@ -61,6 +61,6 @@ public class PayKnowledgeServiceImpl extends ServiceImpl<PayKnowledgeMapper, Pay
 
     @Override
     public Page<GetKnowLedgeDetailResp> getKnowLedgeList(GetKnowLedgeListReq getKnowLedgeListReq) {
-        return  payKnowledgeMapper.getKnowLedgeList(getKnowLedgeListReq,getKnowLedgeListReq.getPage());
+        return  payKnowledgeMapper.getKnowLedgeList(getKnowLedgeListReq.getPage(),getKnowLedgeListReq);
     }
 }

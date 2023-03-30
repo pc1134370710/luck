@@ -22,7 +22,7 @@ public enum CommonEnum {
     ;
 
 
-    public int code;
+    public  int code;
     public String msg;
     public int getCode(){
         return code;
@@ -32,5 +32,7 @@ public enum CommonEnum {
     }
 
     CommonEnum(int code,String msg) {
+        this.code=code;
+        this.msg=msg;
     }
 }

@@ -15,9 +15,6 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 public class GulimallCorsConfiguration {
     /**
      * 功能描述：网关统一配置允许跨域
-     *
-     * @author cakin
-     * @date 2020/10/25
      * @return CorsWebFilter 跨域配置过滤器
      */
     @Bean
@@ -26,7 +23,6 @@ public class GulimallCorsConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 跨域配置
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-
         // 1 配置跨域
         // 允许所有头进行跨域
         corsConfiguration.addAllowedHeader("*");

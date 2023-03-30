@@ -25,7 +25,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        registry.addResourceHandler(htUrl+"**")
 //                .addResourceLocations("file:"+htPath);
     }
-
     // 注册拦截器
 
     // 添加拦截器到 spring mvc 拦截器
@@ -35,7 +34,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(authInterceptor).addPathPatterns("/**")
 //        .excludePathPatterns();
     }
-
-
 }
 

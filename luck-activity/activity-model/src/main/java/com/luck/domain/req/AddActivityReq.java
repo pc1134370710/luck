@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/22023/2 16:57
+ * @time: 2023/2/2 16:57
  */
 @Data
 @ApiModel(value = "添加奖项")

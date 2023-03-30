@@ -3,7 +3,7 @@ package com.luck.config;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/22023/2 14:02
+ * @time: 2023/2/2 14:02
  */
 
 import com.luck.constant.Constant;

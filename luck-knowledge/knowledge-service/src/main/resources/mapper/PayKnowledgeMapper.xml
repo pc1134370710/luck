@@ -3,6 +3,6 @@
 <mapper namespace="com.luck.mapper.PayKnowledgeMapper">
 
     <select id="getKnowLedgeList" resultType="com.luck.domain.resp.GetKnowLedgeDetailResp">
-        select * from luck_pay_knowledge where name like CONCAT('%',#{key},'%')
+        select * from luck_pay_knowledge where name like CONCAT('%',#{getKnowLedgeListReq.key},'%')
     </select>
 </mapper>

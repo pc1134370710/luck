@@ -3,7 +3,7 @@ package com.luck.constant;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/22023/2 11:16
+ * @time: 2023/2/2 11:16
  */
 public class MqConstant {
 

@@ -20,7 +20,6 @@ import java.util.concurrent.CountDownLatch;
  * @author: pangcheng
  * @time: 2023/2/26 10:17
  */
-//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = ActivityApplication.class)
 public class LuckTest {
 

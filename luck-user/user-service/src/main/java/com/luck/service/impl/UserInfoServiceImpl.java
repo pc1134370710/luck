@@ -49,8 +49,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_name",userLoginReq.getUserName());
         UserInfo userInfo = userInfoMapper.selectOne(queryWrapper);
+        // rsa 解密
+        String pwd = passwordRSAUtil.decrypt(userLoginReq.getKey(),userLoginReq.getPassword());
 
-        String loginPwd = PasswordEncoder.encode(userLoginReq.getPassword(),userInfo.getSalt());
+        String loginPwd = PasswordEncoder.encode(pwd,userInfo.getSalt());
         if(!loginPwd.equals(userInfo.getPassword())){
             // 登录失败
             log.warn("cmd =  login | msg = 登录失败，密码错误 | userLoginReq={}",userLoginReq );

@@ -2,10 +2,12 @@ package com.luck.service.impl;
 
 import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.constant.CommonEnum;
 import com.luck.constant.MqConstant;
 import com.luck.constant.OrderStatusConstant;
 import com.luck.domain.req.AddOrderReq;
+import com.luck.domain.req.GetOrderListReq;
 import com.luck.domain.resp.PayOrderResp;
 import com.luck.entity.PayOrder;
 import com.luck.exception.GlobalException;
@@ -123,5 +125,10 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
            log.error(" 生成支付二维码失败，orderId="+orderId,e);
         }
         return payOrderResp;
+    }
+
+    @Override
+    public Page<PayOrder> getOrderList(GetOrderListReq getOrderListReq) {
+        return null;
     }
 }

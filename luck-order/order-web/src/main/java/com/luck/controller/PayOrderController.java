@@ -62,7 +62,7 @@ public class PayOrderController {
     @ApiOperation(value = "获取订单列表")
     public R<Page<PayOrder>> getOrderList(@RequestBody GetOrderListReq getOrderListReq){
         Page<PayOrder> page =  payOrderService.getOrderList(getOrderListReq);
-        return R.OK();
+        return R.OK(page);
 
     }
 
