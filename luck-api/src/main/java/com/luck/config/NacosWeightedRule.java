@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @description: 支持Nacos权重配置的负载均衡策略
  * @author: pangcheng
- * @create: 2023-03-25 13:09
+ * @create: 2023-02-25 13:09
  **/
 //@Component
 public class NacosWeightedRule implements ReactorServiceInstanceLoadBalancer {

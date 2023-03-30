@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: pangcheng
- * @create: 2023-03-27 20:00
+ * @create: 2023-02-27 20:00
  **/
 @Data
 @ApiModel(value = "获取知识列表请求参数")

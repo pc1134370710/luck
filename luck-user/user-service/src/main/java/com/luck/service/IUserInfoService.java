@@ -15,7 +15,7 @@ import com.luck.pojo.UserInfoDomain;
  * </p>
  *
  * @author pc
- * @since 2023-03-20
+ * @since 2023-02-20
  */
 public interface IUserInfoService extends IService<UserInfo> {
 

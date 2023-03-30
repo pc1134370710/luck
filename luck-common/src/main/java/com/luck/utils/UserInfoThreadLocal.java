@@ -5,7 +5,7 @@ import com.luck.model.UserAuth;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 10:44
+ * @time: 2023/22023/2 10:44
  */
 public class UserInfoThreadLocal {
 

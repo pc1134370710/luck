@@ -3,7 +3,7 @@ package com.luck.constant;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 11:16
+ * @time: 2023/22023/2 11:16
  */
 public class MqConstant {
 
@@ -21,6 +21,18 @@ public class MqConstant {
      *  添加商品权限到用户权限中的消息队列
      */
     public static final String USER_POWER="add_user_power";
+
+    /**
+     * 抽奖队列
+     */
+    public static final String LUCK_DRAW="luck_draw";
+
+    /**
+     * 异步扣减库存队列
+     */
+    public static final String LUCK_DRAW_STOCK="luck_draw_stock";
+
+
 
 
 

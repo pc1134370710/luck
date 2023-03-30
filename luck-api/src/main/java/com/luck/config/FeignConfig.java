@@ -3,7 +3,7 @@ package com.luck.config;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 14:02
+ * @time: 2023/22023/2 14:02
  */
 
 import com.luck.constant.Constant;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @description:
  * @author: pangcheng
- * @create: 2023-03-26 13:06
+ * @create: 2023-02-26 13:06
  **/
 @Configurable
 @EnableFeignClients // 开启 fegin 客户端

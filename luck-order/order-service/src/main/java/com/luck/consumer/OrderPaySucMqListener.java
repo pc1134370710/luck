@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/22 14:32
+ * @time: 2023/2/22 14:32
  *  * topic : 主题
  *  * selectorExpression ： 二级分类 ， 不写 默认监听主题下的全部
  *  selectorType : 消息选择器类型
@@ -79,6 +79,7 @@ public class OrderPaySucMqListener implements RocketMQListener<MessageExt> {
         System.out.println(LocalDateTime.now());
         log.info("msg = 支付宝支付回调成功，MQ进行消费, message={}",message);
 
+        // 根据订单id 查找订单
         String orderId = new String(message.getBody(),"utf-8");
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("order_id",orderId);

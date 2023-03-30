@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  *
  * @author pc
- * @since 2023-03-28
+ * @since 2023-02-28
  */
 public interface AwardsMapper extends BaseMapper<Awards> {
 
@@ -21,4 +21,12 @@ public interface AwardsMapper extends BaseMapper<Awards> {
      * @param list
      */
     void batchInsert(@Param("list") List<Awards> list);
+
+    /**
+     * 修改库存
+     * @param awardsId
+     * @param count 数量
+     * @return
+     */
+    int updateStock(String awardsId,int count);
 }

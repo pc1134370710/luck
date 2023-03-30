@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/21 17:46
+ * @time: 2023/2/21 17:46
  */
 @FeignClient(value = "userServe")
 public interface UserFeignClient {

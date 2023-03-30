@@ -9,7 +9,7 @@ import com.luck.entity.RaffleRecord;
  * </p>
  *
  * @author pc
- * @since 2023-03-28
+ * @since 2023-02-28
  */
 public interface IRaffleRecordService extends IService<RaffleRecord> {
 

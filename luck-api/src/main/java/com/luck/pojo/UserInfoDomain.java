@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: pangcheng
- * @create: 2023-03-21 20:10
+ * @create: 2023-02-21 20:10
  **/
 @Data
 public class UserInfoDomain {

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @description:  另一种实现方式 是继承 HandlerInterceptorAdapter适配器
  * @author: pangcheng
- * @time: 2023/3/28 9:35
+ * @time: 2023/22023/2 9:35
  */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {

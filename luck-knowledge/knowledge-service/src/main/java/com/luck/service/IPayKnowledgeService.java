@@ -15,7 +15,7 @@ import com.luck.pojo.KnowledgeDomain;
  * </p>
  *
  * @author pc
- * @since 2023-03-21
+ * @since 2023-02-21
  */
 public interface IPayKnowledgeService extends IService<PayKnowledge> {
 

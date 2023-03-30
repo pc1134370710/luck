@@ -2,12 +2,14 @@ package com.luck.exception;
 
 import com.alibaba.fastjson.JSON;
 import com.luck.resp.R;
+import lombok.Data;
 
 /**
  * @description: 异常
  * @author: pangcheng
- * @create: 2023-03-20 22:31
+ * @create: 2023-02-20 22:31
  **/
+@Data
 public class GlobalException extends RuntimeException {
 
     private R r;

@@ -9,7 +9,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/18 16:20
+ * @time: 2023/2/18 16:20
  */
 @Configuration
 public class GulimallCorsConfiguration {

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @description:
  * @author: pangcheng
- * @create: 2023-03-20 23:04
+ * @create: 2023-02-20 23:04
  **/
 @ApiModel(value = "注册用户请求参数")
 @Data

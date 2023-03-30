@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 17:58
+ * @time: 2023/22023/2 17:58
  */
 @Data
 @ApiModel(value = "抽奖 结果")

@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 15:22
+ * @time: 2023/22023/2 15:22
  */
 @Data
 public class UpdateUserReq extends UserInfo {

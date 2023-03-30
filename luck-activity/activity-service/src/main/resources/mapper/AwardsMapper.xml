@@ -10,4 +10,8 @@
         </foreach>
 
     </insert>
+    <update id="updateStock">
+        update luck_awards set stock = stock+#{count}
+            where stock>0
+    </update>
 </mapper>

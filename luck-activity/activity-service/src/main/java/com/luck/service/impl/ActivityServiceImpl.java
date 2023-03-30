@@ -1,13 +1,10 @@
 package com.luck.service.impl;
 
-import com.alibaba.nacos.shaded.org.checkerframework.checker.units.qual.A;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luck.domain.req.AddActivityAwardsReq;
 import com.luck.domain.req.AddActivityReq;
 import com.luck.entity.Activity;
-import com.luck.entity.ActivityAwardsMap;
 import com.luck.entity.Awards;
-import com.luck.mapper.ActivityAwardsMapMapper;
 import com.luck.mapper.ActivityMapper;
 import com.luck.mapper.AwardsMapper;
 import com.luck.service.IActivityService;
@@ -25,7 +22,7 @@ import java.util.List;
  * </p>
  *
  * @author pc
- * @since 2023-03-28
+ * @since 2023-02-28
  */
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements IActivityService {
@@ -36,8 +33,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     @Autowired
     private AwardsMapper awardsMapper;
 
-    @Autowired
-    private ActivityAwardsMapMapper activityAwardsMapMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -51,7 +46,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         activityMapper.insert(activity);
         // 添加奖项
         List<Awards> awardsList  = new ArrayList<>();
-        List<ActivityAwardsMap> activityAwardsMapList = new ArrayList<>();
         for(AddActivityAwardsReq addActivityAwardsReq : addActivityReq.getAwardsList()){
             Awards awards = new Awards();
             awards.setId(Snowflake.nextId());
@@ -61,21 +55,12 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
             awards.setStock(addActivityAwardsReq.getCnt());
             awards.setAwardsName(addActivityAwardsReq.getAwardsName());
             awards.setPkId(addActivityAwardsReq.getPkId());
+            awards.setActivityId(activity.getId());
             awardsList.add(awards);
-
-            // 设置奖项跟 活动的关联关系
-            ActivityAwardsMap activityAwardsMap = new ActivityAwardsMap();
-            // 设置奖项
-            activityAwardsMap.setAdId(awards.getId());
-            // 设置活动id
-            activityAwardsMap.setAyId(activity.getId());
-            activityAwardsMap.setId(Snowflake.nextId());
-            activityAwardsMapList.add(activityAwardsMap);
         }
         // 批量添加奖项
         awardsMapper.batchInsert(awardsList);
-        // 将奖项 、抽奖活动建立关联关系
-        activityAwardsMapMapper.batchInsert(activityAwardsMapList);
+
 
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/22 9:37
+ * @time: 2023/2/22 9:37
  */
 @Configuration
 public class RocketMQConfig {

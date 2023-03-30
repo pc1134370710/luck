@@ -3,7 +3,7 @@ package com.luck.constant;
 /**
  * @description:
  * @author: pangcheng
- * @create: 2023-03-20 22:35
+ * @create: 2023-02-20 22:35
  **/
 public enum CommonEnum {
 
@@ -15,6 +15,8 @@ public enum CommonEnum {
     ORDER_IS_EXP(20002,"订单已过期"),
     ORDER_SEND_MSG_FAIL(20003,"订单发送mq消息失败"),
     LUCK_DRAW_REPEAT(20004,"您已经抽过奖啦"),
+    LUCK_DRAW_ERROR(20005,"抽奖服务异常，请稍后重试"),
+    LUCK_DRAW_NOT_RESULT(20007,"暂无抽奖结果"),
 
 
     ;

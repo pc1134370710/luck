@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/21 17:42
+ * @time: 2023/2/21 17:42
  */
 @ApiModel(value = "付费知识详情")
 @Data

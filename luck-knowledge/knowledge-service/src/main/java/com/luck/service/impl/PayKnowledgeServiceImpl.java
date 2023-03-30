@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author pc
- * @since 2023-03-21
+ * @since 2023-02-21
  */
 @Service
 public class PayKnowledgeServiceImpl extends ServiceImpl<PayKnowledgeMapper, PayKnowledge> implements IPayKnowledgeService {

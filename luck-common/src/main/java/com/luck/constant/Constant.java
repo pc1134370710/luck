@@ -3,7 +3,7 @@ package com.luck.constant;
 /**
  * @description: 常量
  * @author: pangcheng
- * @create: 2023-03-20 22:41
+ * @create: 2023-02-20 22:41
  **/
 public class Constant {
 

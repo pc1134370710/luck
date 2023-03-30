@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author pc
- * @since 2023-03-21
+ * @since 2023-02-21
  */
 public interface PayKnowledgeMapper extends BaseMapper<PayKnowledge> {
 

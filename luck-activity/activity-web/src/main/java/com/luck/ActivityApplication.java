@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @description:
  * @author: pangcheng
- * @time: 2023/3/28 16:37
+ * @time: 2023/22023/2 16:37
  */
 @SpringBootApplication(scanBasePackages = "com.luck.*")
 @MapperScan("com.luck.mapper")

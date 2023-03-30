@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author pc
- * @since 2023-03-28
+ * @since 2023-02-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,6 +28,9 @@ public class Awards implements Serializable {
 
     @ApiModelProperty(value = "付费知识id")
     private String pkId;
+
+    @ApiModelProperty(value = "所属活动的id")
+    private String activityId;
 
     @ApiModelProperty(value = "奖项库存剩余量")
     private Integer stock;
