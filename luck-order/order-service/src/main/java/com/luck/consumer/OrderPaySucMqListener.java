@@ -9,10 +9,12 @@ import com.luck.exception.GlobalException;
 import com.luck.mapper.PayOrderMapper;
 import com.luck.model.UserKnowledgePowerMsg;
 import com.luck.resp.R;
+import com.luck.utils.RedisUtils;
 import lombok.SneakyThrows;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -54,7 +56,7 @@ import java.time.LocalDateTime;
  *
  */
 @Component
-@RocketMQMessageListener(consumerGroup = "orderPaySucConsumer",topic = MqConstant.ORDER_PAY_SUCCESS)
+@RocketMQMessageListener(consumerGroup = "orderPaySucConsumer",topic = MqConstant.ORDER_PAY_SUCCESS,consumeMode= ConsumeMode.ORDERLY)
 public class OrderPaySucMqListener implements RocketMQListener<MessageExt> {
 
     private Logger log =  LoggerFactory.getLogger(OrderPaySucMqListener.class);
@@ -63,6 +65,9 @@ public class OrderPaySucMqListener implements RocketMQListener<MessageExt> {
     private PayOrderMapper payOrderMapper;
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      *   只要没有异常出现，那么就会消费成功，有异常出现了就重新进行发送
@@ -76,32 +81,43 @@ public class OrderPaySucMqListener implements RocketMQListener<MessageExt> {
     @SneakyThrows // @SneakyThrows注解是由lombok封装的,为代码生成一个try…catch块,并把异常向上抛出来
     @Override
     public void onMessage(MessageExt message) {
-        System.out.println(LocalDateTime.now());
-        log.info("msg = 支付宝支付回调成功，MQ进行消费, message={}",message);
-
         // 根据订单id 查找订单
         String orderId = new String(message.getBody(),"utf-8");
+
+        // 缓存时间跟 支付宝设置二维码连接过期的时间 一致，半个小时，支付成功后
+        String key = OrderStatusConstant.getPayCodeCacheKay(orderId);
+        redisUtils.remove(key);
+
+
+        log.info("msg = 支付宝支付回调成功，MQ进行消费, 回调订单id={}",orderId);
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("order_id",orderId);
         PayOrder order = payOrderMapper.selectOne(queryWrapper);
+
+        if(order.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_PAY){
+            log.warn("该订单重复付款,订单={}" ,order);
+            // 已经付过款了
+
+            // 进行退款 或者 入库记录， 后期人工核对
+            return;
+        }
 
 
         UserKnowledgePowerMsg userKnowledgePowerMsg = new UserKnowledgePowerMsg();
         userKnowledgePowerMsg.setPkId(order.getPkId());
         userKnowledgePowerMsg.setUserId(order.getUserId());
 
-        Message<UserKnowledgePowerMsg> userPowerMsg = MessageBuilder.withPayload(userKnowledgePowerMsg)
-                .setHeader(RocketMQHeaders.KEYS, order.getUserId())
-                .build();
+//        Message<UserKnowledgePowerMsg> userPowerMsg = MessageBuilder.withPayload(userKnowledgePowerMsg)
+//                .setHeader(RocketMQHeaders.KEYS, order.getUserId())
+//                .build();
         // 将付费知识id  添加到用户的访问权限中
         // 发送至mq 中
-        SendResult sendResult = rocketMQTemplate.syncSend(MqConstant.USER_POWER, userPowerMsg);
+        SendResult sendResult = rocketMQTemplate.syncSend(MqConstant.USER_POWER, userKnowledgePowerMsg);
         if(!sendResult.getSendStatus().name().equals(SendStatus.SEND_OK.name())){
             log.warn("cmd = OrderPaySucMqListener | msg = 发送mq消息失败 sendResult={}",sendResult);
             throw new GlobalException(R.ERROR(CommonEnum.ORDER_SEND_MSG_FAIL));
             // 退款？
         }
-        log.info("消息发送至 {} 队列中，等待消费",MqConstant.USER_POWER);
-        // 结束
+        log.info("发送用户添加查看权限消息到指定的MQ队列，userKnowledgePowerMsg={} | 结果={}",userKnowledgePowerMsg,sendResult);
     }
 }

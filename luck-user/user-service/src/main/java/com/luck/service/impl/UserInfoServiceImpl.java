@@ -71,6 +71,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         UserAuth userAuth = new UserAuth();
         userAuth.setUserId(userInfo.getId());
+        userAuth.setToken(accessToken);
         userAuth.setUserName(userInfo.getUserName());
         userAuth.setUserType(userInfo.getUserType());
         redisUtils.set(accessToken,userAuth, Constant.REDIS_USER_AUTO_TIME_EXP);

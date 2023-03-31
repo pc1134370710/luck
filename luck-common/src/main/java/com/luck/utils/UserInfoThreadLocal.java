@@ -10,7 +10,7 @@ import com.luck.model.UserAuth;
 public class UserInfoThreadLocal {
 
     private static ThreadLocal<UserAuth> userAuthThreadLocal  = new ThreadLocal<>();
-
+//    private static InheritableThreadLocal<UserAuth> userAuthThreadLocal  = new InheritableThreadLocal<>();
     public static void set(UserAuth userAuth){
         userAuthThreadLocal.set(userAuth);
     }

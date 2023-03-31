@@ -20,6 +20,20 @@ public class OrderStatusConstant {
      */
     public static  final int ORDER_STATUS_IS_EXT=2;
 
+    /**
+     * 缓存支付二维码 url
+     */
 
+    public static final  String PAY_CODE_CACHE_KAY="payCodeKey";
+
+
+    /**
+     * 获取支付订单缓存key
+     * @param orderId
+     * @return
+     */
+    public static String getPayCodeCacheKay(String orderId){
+        return PAY_CODE_CACHE_KAY+":"+orderId;
+    }
 
 }

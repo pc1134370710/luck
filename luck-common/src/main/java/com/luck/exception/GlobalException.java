@@ -3,6 +3,7 @@ package com.luck.exception;
 import com.alibaba.fastjson.JSON;
 import com.luck.resp.R;
 import lombok.Data;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @description: 异常

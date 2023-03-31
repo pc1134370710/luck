@@ -9,6 +9,8 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +48,9 @@ import java.util.ArrayList;
 @RocketMQMessageListener(consumerGroup = "orderStatusConsumer",topic = MqConstant.ORDER_STATUS)
 public class OrderStatusMqListener implements RocketMQListener<MessageExt> {
 
+
+    private static Logger log = LoggerFactory.getLogger(OrderStatusMqListener.class);
+
     @Autowired
     private PayOrderMapper payOrderMapper;
 
@@ -61,24 +66,21 @@ public class OrderStatusMqListener implements RocketMQListener<MessageExt> {
      */
     @Override
     public void onMessage(MessageExt message) {
-        System.out.println("延时队列 =================");
-        System.out.println(LocalDateTime.now());
-        System.out.println("headers.get(RocketMQHeaders.KEYS)："+ message.getKeys());
-        System.out.println("getTags："+ message.getTags());
-        System.out.println("getTopic："+ message.getTopic());
-        System.out.println("收到消息："+ message);
+
         try {
-
             String orderId = new String(message.getBody(),"utf-8");
-
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("order_id",orderId);
-
-            PayOrder payOrder = new PayOrder();
+            log.info("收到订单过期消息， 订单id={}",orderId);
+            PayOrder payOrder = payOrderMapper.selectOne(queryWrapper);
+            // 订单已支付，不用修改
+            if(payOrder.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_PAY){
+                log.debug("订单到期，订单已支付，忽略不做操作， 订单={}",payOrder);
+                return;
+            }
+            log.info("订单到期， 订单={}",payOrder);
             payOrder.setStatus(OrderStatusConstant.ORDER_STATUS_IS_EXT);
-
             payOrderMapper.update(payOrder,queryWrapper);
-            System.out.println("收到消息："+ orderId);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

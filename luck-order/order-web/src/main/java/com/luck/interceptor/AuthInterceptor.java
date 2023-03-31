@@ -8,6 +8,7 @@ import com.luck.model.UserAuth;
 import com.luck.resp.R;
 import com.luck.utils.RedisUtils;
 import com.luck.utils.UserInfoThreadLocal;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 /**
  * @description:  另一种实现方式 是继承 HandlerInterceptorAdapter适配器
@@ -38,6 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        MDC.put("cguid", UUID.randomUUID().toString());
         /*
             SpringBoot 拦截器在拦截请求时需要判断是否是 Controller 处理器，因为不是所有的请求都会被 Controller 处理器处理。
             而判断是否是 Controller 处理器可以通过判断 handler 是否是 HandlerMethod 实例来完成。
@@ -75,5 +78,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         UserInfoThreadLocal.remove();
+        response.setHeader("cguid",MDC.get("cguid"));
+        MDC.clear();
     }
 }

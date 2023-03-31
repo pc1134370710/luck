@@ -19,6 +19,7 @@ import com.luck.pay.AliPay;
 import com.luck.resp.R;
 import com.luck.service.IPayOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luck.utils.RedisUtils;
 import com.luck.utils.UserInfoThreadLocal;
 import com.luck.utils.Snowflake;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -54,6 +56,9 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
     private KnowledgeFeignClient knowledgeFeignClient;
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
 
@@ -116,11 +121,22 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
         if(order.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_EXT){
             throw new GlobalException(R.ERROR(CommonEnum.ORDER_IS_EXP));
         }
+        String key = OrderStatusConstant.getPayCodeCacheKay(orderId);
+
+        // 缓存时间跟 支付宝设置二维码连接过期的时间 一致，半个小时，支付成功后
+        // 支付成功后会删除改二维码
+        String code = (String) redisUtils.get(key);
+        if(code != null){
+            log.info("从缓存中取出上次的支付二维码，orderId={} | code={}",orderId,code);
+            payOrderResp.setQrCodeUrl(code);
+            return payOrderResp;
+        }
 
         try {
             // 开发者需要自己使用工具根据内容生成二维码图片。
-            String code = aliPay.getCode(orderId,order.getOrderName(),order.getOrderPrice().toPlainString(),"");
-            payOrderResp.setQrCodeUrl(code);
+             code = aliPay.getCode(orderId,order.getOrderName(),order.getOrderPrice().toPlainString(),"");
+             payOrderResp.setQrCodeUrl(code);
+            redisUtils.set(key,code,30L, TimeUnit.SECONDS);
         } catch (AlipayApiException e) {
            log.error(" 生成支付二维码失败，orderId="+orderId,e);
         }
@@ -129,6 +145,8 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
 
     @Override
     public Page<PayOrder> getOrderList(GetOrderListReq getOrderListReq) {
-        return null;
+        UserAuth userAuth = UserInfoThreadLocal.get();
+        Page<PayOrder> page =   payOrderMapper.getOrderList(getOrderListReq.getPage(),getOrderListReq, userAuth.getUserId());
+        return page;
     }
 }
