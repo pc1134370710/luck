@@ -157,6 +157,17 @@ public class RedisUtils {
     }
 
     /**
+     * 删除 hash key
+     * @param key
+     * @param hashKey
+     */
+    public void hmDel(String key, Object hashKey) {
+        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
+        hash.delete(key, hashKey);
+    }
+
+
+    /**
      * 哈希获取数据
      *
      * @param key

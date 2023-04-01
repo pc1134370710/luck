@@ -5,6 +5,7 @@ import com.luck.domain.req.GetKnowLedgeListReq;
 import com.luck.domain.resp.GetKnowLedgeDetailResp;
 import com.luck.entity.PayKnowledge;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.luck.pojo.knowledge.AddKnowLedgePayCountDomain;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -19,9 +20,16 @@ public interface PayKnowledgeMapper extends BaseMapper<PayKnowledge> {
 
     /**
      * 分页获取付费知识
+     * @param pag
      * @param getKnowLedgeListReq
-     * @param page
      * @return
      */
     Page<GetKnowLedgeDetailResp> getKnowLedgeList(Page pag ,@Param("getKnowLedgeListReq") GetKnowLedgeListReq getKnowLedgeListReq);
+
+    /**
+     * 修改购买次数
+     * @param addKnowLedgePayCountDomain
+     * @return
+     */
+    int addKnowLedgePayCount(AddKnowLedgePayCountDomain addKnowLedgePayCountDomain);
 }

@@ -151,10 +151,12 @@
                 <artifactId>swagger-bootstrap-ui</artifactId>
                 <version>1.9.3</version>
             </dependency>
+
+<!--            阿里支付相关  -->
             <dependency>
                 <groupId>com.alipay.sdk</groupId>
                 <artifactId>alipay-sdk-java</artifactId>
-                <version>4.34.0.ALL</version>
+                <version>4.35.92.ALL</version>
             </dependency>
 
 <!--       rocketmq     -->

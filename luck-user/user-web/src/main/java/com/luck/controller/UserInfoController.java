@@ -7,6 +7,7 @@ import com.luck.domain.req.RegisterUserReq;
 import com.luck.domain.req.UpdateUserReq;
 import com.luck.entity.UserInfo;
 import com.luck.pojo.UserInfoDomain;
+import com.luck.pojo.UserLookPowerDomain;
 import com.luck.resp.R;
 import com.luck.service.IUserInfoService;
 import io.swagger.annotations.Api;
@@ -42,7 +43,7 @@ public class UserInfoController {
         return R.OK();
     }
 
-    @PostMapping()
+    @PostMapping("/updateUser")
     @ApiOperation(value = "修改用户")
     public R<Object> updateUser(@RequestBody UpdateUserReq updateUserReq){
         UserInfo user = new UserInfo();
@@ -61,6 +62,12 @@ public class UserInfoController {
     @ApiOperation(value = "根据用户id 获取用户信息")
     public R<UserInfoDomain> getUserInfo(@PathVariable("id") String userId){
         return R.OK(userInfoService.getUserInfo(userId));
+    }
+
+    @GetMapping("/getLookPower/{id}")
+    @ApiOperation(value = "根据用户id 获取用户查看权限")
+    public R<UserLookPowerDomain> getLookPower(@PathVariable("id") String userId){
+        return R.OK(userInfoService.getLookPower(userId));
     }
 
 

@@ -33,7 +33,7 @@ public class RaffleRecord implements Serializable {
     @ApiModelProperty(value = "抽奖活动id")
     private String ayId;
 
-    @ApiModelProperty(value = "0不可见，1可见")
+    @ApiModelProperty(value = "0正在抽奖，1抽奖完成")
     private Integer status;
     @ApiModelProperty(value = "是否中奖，0否，1是")
     private Integer isDraw;

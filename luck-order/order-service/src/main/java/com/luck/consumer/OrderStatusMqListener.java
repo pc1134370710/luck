@@ -74,7 +74,12 @@ public class OrderStatusMqListener implements RocketMQListener<MessageExt> {
             log.info("收到订单过期消息， 订单id={}",orderId);
             PayOrder payOrder = payOrderMapper.selectOne(queryWrapper);
             // 订单已支付，不用修改
-            if(payOrder.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_PAY){
+            if(payOrder == null){
+                log.warn("订单不存在，订单id={}",orderId);
+                return;
+            }
+
+            if( payOrder.getStatus() == OrderStatusConstant.ORDER_STATUS_IS_PAY){
                 log.debug("订单到期，订单已支付，忽略不做操作， 订单={}",payOrder);
                 return;
             }

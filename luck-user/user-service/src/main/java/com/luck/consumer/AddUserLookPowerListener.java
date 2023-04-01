@@ -2,8 +2,10 @@ package com.luck.consumer;
 
 import com.luck.constant.MqConstant;
 import com.luck.entity.PayPower;
+import com.luck.knowledge.KnowledgeFeignClient;
 import com.luck.mapper.PayPowerMapper;
 import com.luck.model.UserKnowledgePowerMsg;
+import com.luck.pojo.knowledge.AddKnowLedgePayCountDomain;
 import com.luck.utils.Snowflake;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -28,6 +30,8 @@ public class AddUserLookPowerListener implements RocketMQListener<UserKnowledgeP
 
     @Autowired
     private PayPowerMapper payPowerMapper;
+    @Autowired
+    private KnowledgeFeignClient knowledgeFeignClient;
 
     @Override
     public void onMessage(UserKnowledgePowerMsg userKnowledgePowerMsg) {
@@ -38,6 +42,14 @@ public class AddUserLookPowerListener implements RocketMQListener<UserKnowledgeP
         payPower.setUserId(userKnowledgePowerMsg.getUserId());
         payPower.setPkId(userKnowledgePowerMsg.getPkId());
         payPowerMapper.insert(payPower);
+
+        // 修改 商品的支付次数
+        AddKnowLedgePayCountDomain updateKnowLedgeDomain = new AddKnowLedgePayCountDomain();
+        updateKnowLedgeDomain.setPkId(userKnowledgePowerMsg.getPkId());
+        updateKnowLedgeDomain.setPayCount(1);
+        knowledgeFeignClient.addKnowLedgePayCount(updateKnowLedgeDomain);
+
+
 
     }
 

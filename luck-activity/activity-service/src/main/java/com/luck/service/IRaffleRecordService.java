@@ -3,6 +3,8 @@ package com.luck.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luck.entity.RaffleRecord;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.luck.entity.RaffleRecord;
  */
 public interface IRaffleRecordService extends IService<RaffleRecord> {
 
+    List<RaffleRecord> getRaffleRecord();
 }

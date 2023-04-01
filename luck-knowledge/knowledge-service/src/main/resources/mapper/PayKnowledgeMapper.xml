@@ -3,6 +3,15 @@
 <mapper namespace="com.luck.mapper.PayKnowledgeMapper">
 
     <select id="getKnowLedgeList" resultType="com.luck.domain.resp.GetKnowLedgeDetailResp">
-        select * from luck_pay_knowledge where name like CONCAT('%',#{getKnowLedgeListReq.key},'%')
+        select * from luck_pay_knowledge
+        <where>
+            <if test="getKnowLedgeListReq.key!=null">
+                and name like concat('%', #{getKnowLedgeListReq.key}, '%')
+            </if>
+        </where>
     </select>
+
+    <update id="addKnowLedgePayCount">
+        update luck_pay_knowledge set pay_count =pay_count+#{payCount} where pk_id = #{pkId}
+    </update>
 </mapper>

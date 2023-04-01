@@ -43,6 +43,8 @@ public class PayKnowledge implements Serializable {
 
     @ApiModelProperty(value = "付费人数")
     private Integer payCount;
+    @ApiModelProperty(value ="收费付费情况0免费，1收费")
+    private Integer payLookStatus;
 
     @ApiModelProperty(value = "价格")
     private BigDecimal payPrice;

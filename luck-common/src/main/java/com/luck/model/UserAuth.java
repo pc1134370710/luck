@@ -2,6 +2,8 @@ package com.luck.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @description: 用户身份信息
  * @author: pangcheng
@@ -22,7 +24,6 @@ public class UserAuth {
      * 用户类型
      */
     private Integer userType;
-
     /**
      * token  信息
      */

@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParser
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(scanBasePackages = "com.luck.*")
 @MapperScan("com.luck.mapper")
+@EnableFeignClients
 public class KnowledgeApplication {
 
 	public static void main(String[] args) {

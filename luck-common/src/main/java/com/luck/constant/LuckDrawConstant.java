@@ -15,6 +15,19 @@ public class LuckDrawConstant {
 
     public static final String CACHE_KEY_LUCK_DRAW_REPEAT_PREFIX ="luck_draw_repeat";
 
+    // 库存key
+    public static final String CACHE_KEY_LUCK_DRAW_STOCK_PREFIX ="luck_draw_stock";
+
+
+    /**
+     * 获取 库存key
+     * @param activityId
+     * @param userId
+     * @return
+     */
+    public static String getLuckDrawStock(String activityId,String userId){
+        return CACHE_KEY_LUCK_DRAW_STOCK_PREFIX +":"+activityId+":"+userId;
+    }
 
     /**
      * 获取防止重复抽奖的缓存key

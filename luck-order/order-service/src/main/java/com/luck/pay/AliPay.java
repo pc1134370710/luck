@@ -83,7 +83,7 @@ public class AliPay {
 2. time_expire和timeout_express两者只需传入一个或者都不传，如果两者都传，优先使用time_expire。
 
          */
-//        model.setTimeoutExpress("30m");
+        model.setTimeoutExpress("30m");
         payRequest.setBizModel(model);
         // 异步回调url
         payRequest.setNotifyUrl(myAliPayConfig.getPayCallbackUrl());

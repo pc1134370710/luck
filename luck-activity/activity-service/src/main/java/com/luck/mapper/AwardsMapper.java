@@ -29,4 +29,6 @@ public interface AwardsMapper extends BaseMapper<Awards> {
      * @return
      */
     int updateStock(String awardsId,int count);
+
+    List<Awards> batchSelectAwards(@Param("list") List<String> activityIds);
 }

@@ -7,11 +7,14 @@ import com.luck.constant.Constant;
 import com.luck.domain.req.GetUserListReq;
 import com.luck.domain.req.RegisterUserReq;
 import com.luck.domain.req.UserLoginReq;
+import com.luck.entity.PayPower;
 import com.luck.entity.UserInfo;
 import com.luck.exception.GlobalException;
+import com.luck.mapper.PayPowerMapper;
 import com.luck.mapper.UserInfoMapper;
 import com.luck.model.UserAuth;
 import com.luck.pojo.UserInfoDomain;
+import com.luck.pojo.UserLookPowerDomain;
 import com.luck.resp.R;
 import com.luck.domain.resq.UserLoginResp;
 import com.luck.service.IUserInfoService;
@@ -22,7 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -40,6 +45,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private UserInfoMapper userInfoMapper;
     @Autowired
     private PasswordRSAUtil passwordRSAUtil;
+    @Autowired
+    private PayPowerMapper payPowerMapper;
 
     @Autowired
     private RedisUtils redisUtils;
@@ -110,5 +117,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfoDomain.setUserName(userInfo.getUserName());
         userInfoDomain.setUserType(userInfo.getUserType());
         return userInfoDomain;
+    }
+
+    @Override
+    public UserLookPowerDomain getLookPower(String userId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id",userId);
+        List<PayPower> list = payPowerMapper.selectList(queryWrapper);
+        List<String> pkIds = list.stream().map(PayPower::getPkId).collect(Collectors.toList());
+        UserLookPowerDomain userLookPowerDomain = new UserLookPowerDomain();
+        userLookPowerDomain.setPkIds(pkIds);
+        userLookPowerDomain.getUserId();
+        return userLookPowerDomain;
     }
 }

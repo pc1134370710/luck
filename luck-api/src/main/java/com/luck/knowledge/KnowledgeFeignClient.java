@@ -1,10 +1,13 @@
 package com.luck.knowledge;
 
 import com.luck.pojo.KnowledgeDomain;
+import com.luck.pojo.knowledge.AddKnowLedgePayCountDomain;
 import com.luck.resp.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -21,7 +24,10 @@ public interface KnowledgeFeignClient {
      * @param pkId
      * @return
      */
-    @GetMapping("/knowledge/payKnowledge/getKnowledgeInfo/{pkId}")
-    R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")String pkId);
+    @GetMapping("/knowledge/payKnowledge/getApiKnowledgeInfo/{pkId}")
+    R<KnowledgeDomain> getApiKnowledgeInfo(@PathVariable("pkId")String pkId);
+
+    @PostMapping("/knowledge/payKnowledge/addKnowLedgePayCount")
+    R<KnowledgeDomain> addKnowLedgePayCount(@RequestBody AddKnowLedgePayCountDomain addKnowLedgePayCountDomain);
 
 }

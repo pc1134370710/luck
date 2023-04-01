@@ -3,10 +3,10 @@
 <mapper namespace="com.luck.mapper.AwardsMapper">
 
     <insert id="batchInsert">
-        insert into luck_awards(id,pk_id,stock,cnt,awards_name)  values
+        insert into luck_awards(id,pk_id,stock,cnt,awards_name,activity_id)  values
         <foreach collection="list" item="item" index="index"
                  separator=",">
-            (#{item.id},#{item.pkId},#{item.stock},#{item.cnt},#{item.awards_name})
+            (#{item.id},#{item.pkId},#{item.stock},#{item.cnt},#{item.awardsName}),#{item.activityId})
         </foreach>
 
     </insert>
@@ -14,4 +14,12 @@
         update luck_awards set stock = stock+#{count}
             where stock>0
     </update>
+
+    <select id="batchSelectAwards" resultType="com.luck.entity.Awards">
+        select * from luck_awards where activity_id in
+        <foreach collection="list" item="item" index="index"
+                 separator="," open="(" close=")">
+                    #{item}
+        </foreach>
+    </select>
 </mapper>

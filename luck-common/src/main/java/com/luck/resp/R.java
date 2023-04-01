@@ -57,6 +57,12 @@ public class R<T> implements Serializable {
         r.setMsg(commonEnum.msg);
         return r;
     }
-
+    public static <T>  R ERROR(CommonEnum commonEnum,T data){
+        R r = new R();
+        r.setCode(commonEnum.code);
+        r.setMsg(commonEnum.msg);
+        r.setData(data);
+        return r;
+    }
 }
 

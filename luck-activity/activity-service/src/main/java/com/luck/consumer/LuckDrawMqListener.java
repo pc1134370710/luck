@@ -57,8 +57,15 @@ public class LuckDrawMqListener implements RocketMQListener<LuckDrawMessage> {
             luckDrawContext.setUserAuth(luckDrawMessage.getUserAuth());
             // 执行抽奖逻辑
             LuckDrawResp luckDrawResp = redisLuckDrawService.luckDraw(luckDrawContext);
-            // 设置抽奖结果
-            redisLuckDrawService.setLuckDrawResult(R.OK(luckDrawResp),luckDrawMessage.getUserAuth(),luckDrawMessage.getActivityId());
+            if(luckDrawResp.getIsDraw() == 1){
+                // 设置抽奖结果
+                redisLuckDrawService.setLuckDrawResult(R.OK(luckDrawResp),luckDrawMessage.getUserAuth(),luckDrawMessage.getActivityId()) ;
+            }else if(luckDrawResp.getIsDraw() == 0){
+                redisLuckDrawService.setLuckDrawResult(R.ERROR(CommonEnum.LUCK_DRAW_NOT_DRAW,luckDrawResp),luckDrawMessage.getUserAuth(),luckDrawMessage.getActivityId()) ;
+            }else{
+                redisLuckDrawService.setLuckDrawResult(R.ERROR(CommonEnum.LUCK_DRAW_REPEAT,luckDrawResp),luckDrawMessage.getUserAuth(),luckDrawMessage.getActivityId()) ;
+            }
+
             // 捕获异常
         }catch (Exception e){
             log.error("抽奖消息消费异常 luckDrawMessage={}",luckDrawMessage,e);

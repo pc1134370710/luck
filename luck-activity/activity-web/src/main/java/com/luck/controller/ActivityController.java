@@ -1,11 +1,14 @@
 package com.luck.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luck.constant.CommonEnum;
 import com.luck.constant.Constant;
 import com.luck.constant.LuckDrawConstant;
 import com.luck.constant.MqConstant;
 import com.luck.domain.req.AddActivityReq;
+import com.luck.domain.req.GetActivityListReq;
+import com.luck.domain.resp.GetActivityListResp;
 import com.luck.domain.resp.LuckDrawResp;
 import com.luck.manager.RedisLuckDrawService;
 import com.luck.model.UserAuth;
@@ -79,6 +82,13 @@ public class ActivityController {
     public R<Object> delActivity(@PathVariable("id") String id){
         activityService.removeById(id);
         return R.OK();
+    }
+
+    @PostMapping("/getActivityList")
+    @ApiOperation(value = "获取抽奖活动列表")
+    public R<Page<GetActivityListResp>> getActivityList(@RequestBody GetActivityListReq getActivityListReq){
+        Page<GetActivityListResp> page=activityService.getActivityList(getActivityListReq);
+        return R.OK(page);
     }
 }
 

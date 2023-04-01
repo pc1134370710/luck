@@ -94,6 +94,8 @@ public class RedisLuckDrawService  {
             // 暂无抽奖结果
             return R.ERROR(CommonEnum.LUCK_DRAW_NOT_RESULT);
         }
+        // 获取完结果后 将其从redis 中删除
+        redisUtils.hmDel(LuckDrawConstant.CACHE_KEY_LUCK_DRAW_RESULT,key);
         return respR;
     }
 
@@ -105,12 +107,14 @@ public class RedisLuckDrawService  {
     public  LuckDrawResp luckDraw(LuckDrawContext luckDraw) {
 
         LuckDrawResp luckDrawResp = new LuckDrawResp();
+        luckDrawResp.setIsDraw(1);
         luckDrawResp.setActivityId(luckDraw.getActivity().getId());
         luckDrawResp.setAwardsName(luckDraw.getActivity().getActivityName());
         // 校验用户是否已经重复抽奖了
         // 埋点 ,校验抽奖规则， 后续加入 用户满一定积分才可以抽奖，或者不允许重复抽奖 等
         if(!verifyLuckDrawRule(luckDraw)){
             luckDrawResp.setAwardsName("很遗憾，未中奖");
+            luckDrawResp.setIsDraw(2);
             return luckDrawResp;
         }
 
@@ -127,6 +131,7 @@ public class RedisLuckDrawService  {
         if(!beforeLuckDraw){
             // 扣减库存失败 返回未中奖
             luckDrawResp.setAwardsName("很遗憾，未中奖");
+            luckDrawResp.setIsDraw(0);
             return luckDrawResp;
         }
 
@@ -208,7 +213,7 @@ public class RedisLuckDrawService  {
             try {
                 // 插入抽奖记录
                 String recordId = addRecord(activity, awards, userAuth);
-                // 插入 不可见的抽奖记录， 等待抽奖流程都完成后在进行修改状态，并且修改实际库存数量
+                // 插入 正在抽奖中的抽奖记录， 等待抽奖流程都完成后在进行修改状态，并且修改实际库存数量
 
                 // 并且将奖品发放给用户
                 // 不是谢谢惠顾
@@ -343,7 +348,7 @@ public class RedisLuckDrawService  {
         if(awards.getPkId() == null){
             return 1;
         }
-        String key = activity.getId()+awards.getId();
+        String key =LuckDrawConstant.getLuckDrawStock(activity.getId(),awards.getId());
         /**
          * stockDeductionLua: lua 脚本
          * Long.class: 返回执行后的库存值类型
@@ -368,7 +373,7 @@ public class RedisLuckDrawService  {
         if(awards.getPkId() == null){
             return 1;
         }
-        String key = activity.getId()+awards.getId();
+        String key =LuckDrawConstant.getLuckDrawStock(activity.getId(),awards.getId());
         /**
          * stockDeductionLua: lua 脚本
          * Long.class: 返回执行后的库存值类型

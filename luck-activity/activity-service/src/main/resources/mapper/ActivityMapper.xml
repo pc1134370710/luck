@@ -2,5 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luck.mapper.ActivityMapper">
 
+  <select id="getActivityList" resultType="com.luck.domain.resp.GetActivityListResp">
+        select la.* , lr.id lrid, case lr.id is null when true then 0 else 1 end 'isPay'
+                from  luck_activity la
+	            left JOIN luck_raffle_record lr on la.id = lr.ay_id and lr.user_id=#{userId}
+	            <where>
+                    <if test="getActivityListReq.key!=null">
+                       and la.activity_name like concat('%', #{getActivityListReq.key}, '%')
+                    </if>
+                </where>
 
+    </select>
 </mapper>

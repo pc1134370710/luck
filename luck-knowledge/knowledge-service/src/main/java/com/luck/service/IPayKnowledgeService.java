@@ -8,6 +8,7 @@ import com.luck.domain.resp.GetKnowLedgeDetailResp;
 import com.luck.entity.PayKnowledge;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luck.pojo.KnowledgeDomain;
+import com.luck.pojo.knowledge.AddKnowLedgePayCountDomain;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ public interface IPayKnowledgeService extends IService<PayKnowledge> {
      * @return
      */
     KnowledgeDomain getKnowledgeInfo(String pkId);
+    KnowledgeDomain getApiKnowledgeInfo(String pkId);
 
     /**
      * 修改付费内容
@@ -44,4 +46,10 @@ public interface IPayKnowledgeService extends IService<PayKnowledge> {
      * @return
      */
     Page<GetKnowLedgeDetailResp> getKnowLedgeList(GetKnowLedgeListReq getKnowLedgeListReq);
+
+    /**
+     * 增加购买次数
+     * @param addKnowLedgePayCountDomain
+     */
+    void addKnowLedgePayCount(AddKnowLedgePayCountDomain addKnowLedgePayCountDomain);
 }

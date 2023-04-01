@@ -8,6 +8,7 @@ import com.luck.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luck.domain.resq.UserLoginResp;
 import com.luck.pojo.UserInfoDomain;
+import com.luck.pojo.UserLookPowerDomain;
 
 /**
  * <p>
@@ -41,4 +42,11 @@ public interface IUserInfoService extends IService<UserInfo> {
 
 
     Page<UserInfo> getUserList(GetUserListReq getUserListReq);
+
+    /**
+     * 获取用户查看权限
+     * @param userId
+     * @return
+     */
+    UserLookPowerDomain getLookPower(String userId);
 }

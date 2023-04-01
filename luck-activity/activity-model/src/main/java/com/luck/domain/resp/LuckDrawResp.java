@@ -3,6 +3,7 @@ package com.luck.domain.resp;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @description:
@@ -20,6 +21,8 @@ public class LuckDrawResp {
     private String activityName;
     @ApiModelProperty(value = "活动id")
     private String activityId;
+    @ApiModelProperty(value = "0未中奖，1中奖,2 重复抽奖")
+    private Integer isDraw;
 
 
 }

@@ -65,9 +65,24 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public PayOrderResp addOrder(AddOrderReq addOrderReq) {
+        PayOrderResp payOrderResp = new PayOrderResp();
+        // 先查询当前用户是否有未支付的订单
+
+        UserAuth userAuth = UserInfoThreadLocal.get();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id",userAuth.getUserId());
+        queryWrapper.eq("pk_id",addOrderReq.getPkId());
+        queryWrapper.eq("status",0);
+        PayOrder notPayOrder = payOrderMapper.selectOne(queryWrapper);
+        if(notPayOrder!=null){
+            log.info("当前用户{}，存在未支付的订单，直接返回未支付订单={}",userAuth.getUserName(),notPayOrder);
+            payOrderResp.setOrderId(notPayOrder.getOrderId());
+            return payOrderResp;
+        }
+
 
         // 获取付费知识价格
-        R<KnowledgeDomain> knowledgeInfo = knowledgeFeignClient.getKnowledgeInfo(addOrderReq.getPkId());
+        R<KnowledgeDomain> knowledgeInfo = knowledgeFeignClient.getApiKnowledgeInfo(addOrderReq.getPkId());
         if( knowledgeInfo.getCode() != CommonEnum.OK.getCode()){
             throw new GlobalException(R.ERROR(CommonEnum.GET_KNOWLEDGE_INFO_FAIL));
         }
@@ -80,9 +95,7 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
         order.setId(id);
         order.setOrderId(orderId);
         // 将当前用户添加到 订单信息中
-        UserAuth userAuth = UserInfoThreadLocal.get();
         order.setUserId(userAuth.getUserId());
-
         order.setPkId(addOrderReq.getPkId());
         order.setCreateTime(LocalDateTime.now());
         order.setOrderPrice(data.getPayPrice());
@@ -91,7 +104,7 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
         // 保存到数据库中
         payOrderMapper.insert(order);
 
-        PayOrderResp payOrderResp = new PayOrderResp();
+
         payOrderResp.setOrderId(orderId);
         Message<String> message = MessageBuilder.withPayload(orderId)
                 .setHeader(RocketMQHeaders.KEYS,2).
@@ -136,7 +149,7 @@ public class PayOrderServiceImpl extends ServiceImpl<PayOrderMapper, PayOrder> i
             // 开发者需要自己使用工具根据内容生成二维码图片。
              code = aliPay.getCode(orderId,order.getOrderName(),order.getOrderPrice().toPlainString(),"");
              payOrderResp.setQrCodeUrl(code);
-            redisUtils.set(key,code,30L, TimeUnit.SECONDS);
+            redisUtils.set(key,code,30L, TimeUnit.MINUTES);
         } catch (AlipayApiException e) {
            log.error(" 生成支付二维码失败，orderId="+orderId,e);
         }

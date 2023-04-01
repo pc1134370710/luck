@@ -7,6 +7,7 @@ import com.luck.domain.req.GetKnowLedgeListReq;
 import com.luck.domain.req.UpdateKnowLedgeReq;
 import com.luck.domain.resp.GetKnowLedgeDetailResp;
 import com.luck.pojo.KnowledgeDomain;
+import com.luck.pojo.knowledge.AddKnowLedgePayCountDomain;
 import com.luck.resp.R;
 import com.luck.service.IPayKnowledgeService;
 import io.swagger.annotations.Api;
@@ -45,6 +46,12 @@ public class PayKnowledgeController {
         payKnowledgeService.updateKnowLedge(updateKnowLedgeReq);
         return R.OK();
     }
+    @PostMapping("/addKnowLedgePayCount")
+    @ApiOperation(value = "增加商品的购买次数")
+    public R addKnowLedgePayCount(@RequestBody @Validated AddKnowLedgePayCountDomain addKnowLedgePayCountDomain){
+        payKnowledgeService.addKnowLedgePayCount(addKnowLedgePayCountDomain);
+        return R.OK();
+    }
 
     @PostMapping("/getKnowLedgeList")
     @ApiOperation(value = "分页获取付费知识列表")
@@ -54,13 +61,18 @@ public class PayKnowledgeController {
     }
 
 
+    @ApiOperation(value = "内部获取服务内容详情")
+    @GetMapping("/getApiKnowledgeInfo/{pkId}")
+    public R<KnowledgeDomain> getApiKnowledgeInfo(@PathVariable("pkId")String pkId){
+        KnowledgeDomain knowledgeDomain =  payKnowledgeService.getApiKnowledgeInfo(pkId);
+        return R.OK(knowledgeDomain);
+    }
+
     @ApiOperation(value = "获取服务内容详情")
     @GetMapping("/getKnowledgeInfo/{pkId}")
     public R<KnowledgeDomain> getKnowledgeInfo(@PathVariable("pkId")String pkId){
         KnowledgeDomain knowledgeDomain =  payKnowledgeService.getKnowledgeInfo(pkId);
         return R.OK(knowledgeDomain);
     }
-
-
 }
 

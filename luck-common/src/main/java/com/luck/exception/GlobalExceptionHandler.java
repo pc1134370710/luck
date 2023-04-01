@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     private static Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+
+    @ExceptionHandler(value = GlobalException.class)
+    public R resolveException(GlobalException ex) throws Exception {
+        log.error("发生异常 = ",ex);
+        return ex.getR();
+    }
+
     @ExceptionHandler(value = Exception.class)
     public R resolveException(Exception ex) throws Exception {
         log.error("发生异常 = ",ex);
