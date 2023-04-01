@@ -21,7 +21,3 @@
 
 ![输入图片说明](https://foruda.gitee.com/images/1680347158624629203/1c038d26_6569495.png "屏幕截图")
 
-感兴趣的老哥，可以请喝杯咖啡
-
-![输入图片说明](https://foruda.gitee.com/images/1680347243343103733/4be8512c_6569495.jpeg "3a5cd8b9bca7f83247d05a9b117c219.jpg")
-![输入图片说明](https://foruda.gitee.com/images/1680347195384697473/f87f420a_6569495.jpeg "91363be09d5dc0f46ffc61e0d3bb597.jpg")
